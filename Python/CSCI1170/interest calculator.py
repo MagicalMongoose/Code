@@ -1,0 +1,8 @@
+print("Compound interest calculator")
+principal = int(input("Enter the starting principal: $"))
+APY = int(input("Enter the annual interest rate: "))
+numCompounds = int(input("How many times per year is the interest compounded? "))
+numYears = int(input("How many years will the account earn interest? "))
+finalAmount = float( principal * (1 + (APY / numYears)) ** (numYears * numCompounds) )
+print("At the end of", numYears, "years, you will have", end=" ")
+print("$", format(finalAmount, ",.2f"), sep="")

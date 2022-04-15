@@ -1,0 +1,93 @@
+Script started on Wed 10 Nov 2021 04:20:49 PM CST
+$ pr -t -n -e4 deleteIthNode.cc 
+    1	// File:  deleteIthNode.cc
+    2	//
+    3	// This is the implementation file for the method that deletes the ith item
+    4	// from a list of a ListClass object
+    5	
+    6	#include "inlab8.h"
+    7	#include <iostream>
+    8	#include <fstream>
+    9	#include <stdlib.h>
+   10	using namespace std;
+   11	
+   12	#include "structs.h"
+   13	
+   14	
+   15	//Function to delete the ith node from the list
+   16	//  If there are fewer than i nodes in the list, an error is returned.
+   17	void ListClass::deleteIthNode(int i)
+   18	{
+   19	    NodePtrType q = head; //q will point to the item to delete
+   20	    NodePtrType prev;     //prev will point to the item before q    
+   21	    int j = 1;            //j will keep count of which node in the list
+   22	                          //    we are currently on                   
+   23	
+   24	    if (head == NULL)
+   25	    {   cout<<"Not enough items in list\n";}
+   26	    else
+   27	    {
+   28	        //Traverse the list to find the ith item
+   29	        //Replace this with a while loop that will traverse
+   30	        //the list until either j == i or the end of the list
+   31	        //is encountered.
+   32	        while (j != i && q->next != NULL)
+   33	        {
+   34	            prev = q;
+   35	            q = q->next;
+   36	            j++;
+   37	        }
+   38	        
+   39	        //If there are i items in the list, delete the ith one
+   40	        //Replace this with the if part of an if-else statement.
+   41	        //The if part should delete the ith item if there is an
+   42	        //ith item.
+   43	        if(j == i)
+   44	        {
+   45	            prev->next = q->next;
+   46	            delete q;
+   47	        }
+   48	        else
+   49	        {   cout<<"Not enough items in list\n";}
+   50	    }
+   51	}//end of deleteIthNode
+   52	
+$ c++ main8c.cc inlab8.cc deleteIthNode.cc 
+$ a.out < Ex30_data.0
+The initial list is: 
+1113	530
+1112	450.5
+1111	34.95
+1010	80.45
+Trying to delete the 3rd item
+The current list is:
+1113	530
+1112	450.5
+1010	80.45
+$ a.out < Ex30_data.0[K1
+The initial list is: 
+There are no items in the list
+Trying to delete the 3rd item
+Not enough items in list
+The current list is:
+There are no items in the list
+$ a.out < Ex30_data.1[K2
+The initial list is: 
+1112	450.5
+Trying to delete the 3rd item
+Not enough items in list
+The current list is:
+1112	450.5
+$ a.out < Ex30_data.2[K3
+The initial list is: 
+1112	450.5
+1113	530
+1111	34.95
+Trying to delete the 3rd item
+The current list is:
+1112	450.5
+1113	530
+$ exit
+exit
+
+Script done on Wed 10 Nov 2021 04:21:19 PM CST

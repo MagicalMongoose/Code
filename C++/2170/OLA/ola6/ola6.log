@@ -1,0 +1,308 @@
+Script started on Wed 03 Nov 2021 01:43:11 PM CDT
+$ pr -n -t -e4 Email.h Email.cpp EmailMain.cpp makefile
+    1	/*
+    2	Name: Drew Lickman c8055315
+    3	Class: 2170-001
+    4	Professor: Dr. Yang
+    5	Due: 11/5/21
+    6	*/
+    7	
+    8	#ifndef email_h
+    9	#define email_h
+   10	
+   11	#include <string>
+   12	using namespace std;
+   13	
+   14	class Email
+   15	{
+   16	    private:
+   17	        //private data members
+   18	        string firstName = "";
+   19	        string lastName = "";
+   20	        string password = "";
+   21	        string department = "";
+   22	        int mailBoxCapacity = 500;
+   23	        int passwordLength = 10;
+   24	        string domain = "mtsu.edu";
+   25	
+   26	        //private methods
+   27	        void setDepartment();
+   28	        void randomPassword(int length);
+   29	        void setName(); 
+   30	
+   31	    public:
+   32	        //public methods
+   33	        //default constructor
+   34	        Email();
+   35	        Email(string, string);
+   36	        ~Email();
+   37	        void displayInfo();
+   38	        void passwordChange();
+   39	    
+   40	};
+   41	
+   42	#endif
+    1	/*
+    2	Name: Drew Lickman c8055315
+    3	Class: 2170-001
+    4	Professor: Dr. Yang
+    5	Due: 11/5/21
+    6	*/
+    7	#include <iostream>
+    8	#include <string>
+    9	#include <cstdlib>
+   10	#include <stdio.h>
+   11	#include <ctype.h>
+   12	#include <locale>
+   13	#include <cstring>
+   14	#include <iomanip>
+   15	#include "Email.h"
+   16	using namespace std;
+   17	const string dprtmntName[] = {"None", "Computer Science", "Accounting", "Electrical Engineering"};
+   18	const string department[] = {"", "cs.", "act.", "ee."};
+   19	const char validChars[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '!', '@', '#', '$'};
+   20	
+   21	string numToDepartment(int num)
+   22	{
+   23	    /*
+   24	    Purpose: Converts department ID number to department name
+   25	    Input: int from 0 to 3
+   26	    Output: corresponding department name from global constant dprtmntName[]
+   27	    */
+   28	    string dep = department[num];
+   29	    return dep;
+   30	}
+   31	
+   32	//Default constructor
+   33	Email::Email()
+   34	{
+   35	    setName();
+   36	    setDepartment();
+   37	    randomPassword(passwordLength);
+   38	    cout << "Your email account has been created successfully!\n";
+   39	}
+   40	
+   41	//Overloaded constructor
+   42	Email::Email(string first, string last)
+   43	{
+   44	    firstName = first;
+   45	    lastName = last;
+   46	    setDepartment();
+   47	    randomPassword(passwordLength);
+   48	    cout << "Your email account has been created successfully!\n\n";
+   49	}
+   50	
+   51	void Email::setDepartment()
+   52	{
+   53	    /*
+   54	    Purpose: Set the department variable for an object
+   55	    Input: User inputs int from 0 to 3
+   56	    Output: No output, sets the department variable
+   57	    */
+   58	    int response = -1;
+   59	    cout << firstName << " " << lastName;
+   60	    cout << ", please enter your department code:" << endl;
+   61	
+   62	    for (int i = 0; i < 4; i++)
+   63	    {
+   64	        cout << i << ": " << dprtmntName[i] << endl;
+   65	    }
+   66	    
+   67	    do
+   68	    { 
+   69	        cin >> response;
+   70	    } while (response < 0 || response > 3);
+   71	    cout << endl;
+   72	
+   73	    department = numToDepartment(response);
+   74	}
+   75	
+   76	void Email::randomPassword(int length)
+   77	{
+   78	    /*
+   79	    Purpose: Create a default random password 10 characters long
+   80	    Input: No input
+   81	    Output: String that is 10 characters long
+   82	    */
+   83	    string pass = "ABCDEFGHIJ";
+   84	    for (int i = 0; i < length; i++)
+   85	    {
+   86	        pass[i] = validChars[rand() % 40];
+   87	    }
+   88	    password = pass;
+   89	    cout << "Your default password is:\n" << pass << endl;
+   90	}
+   91	
+   92	void Email::setName()
+   93	{
+   94	
+   95	    /*
+   96	    Purpose: If an object is created without arguements, this function will be called, and will set the object's firstname and lastname variables
+   97	    Input: First name and Last name
+   98	    Output: No output, sets the first and last name variables for the object
+   99	    */
+  100	    string first, last;
+  101	    cout << "Please enter your first name: ";
+  102	    cin >> first;
+  103	    cout << "Please enter your last name: "; 
+  104	    cin >> last;
+  105	    firstName = first;
+  106	    lastName = last;
+  107	}
+  108	
+  109	void Email::displayInfo()
+  110	{
+  111	    /*
+  112	    Purpose: Display the email account info
+  113	    Input: No input
+  114	    Output: Outputs the Email Address, Password, and Mailbox Capacity of an object
+  115	    */
+  116	    cout << endl;
+  117	    cout << "Your Email Account Information: " << endl;
+  118	    cout << "======================================" << endl;
+  119	
+  120	    cout << fixed << setw(20) <<  "Email address: ";
+  121	    cout << firstName << "." << lastName;
+  122	    cout << "@" << department << domain << endl;
+  123	 
+  124	    cout << fixed << setw(20) << "Password: " << password << endl;
+  125	    cout << fixed << setw(20) << "Mailbox capacity: " << mailBoxCapacity << "MB" << endl;
+  126	    cout << "======================================" << endl;
+  127	}
+  128	
+  129	void Email::passwordChange()
+  130	{
+  131	    /*
+  132	    Purpose: Allow the user to set their own password
+  133	    Input: String that is at least the length of passwordLength variable
+  134	    Output: Makes sure the password is long enough, then tells the user the password is updated if successful
+  135	    */
+  136	    char response = 'n';
+  137	    string newPass;
+  138	    cout << "Do you want to change your password? (Y/N)" << endl;
+  139	    cin >> response;
+  140	    if (response == 'y' || response == 'Y')
+  141	    {
+  142	        do
+  143	        {
+  144	            cout << "Enter your new password: " << endl;
+  145	            cin >> newPass;
+  146	            if (newPass.length() < passwordLength)
+  147	            {
+  148	                cout << "Please use a longer password!" << endl;
+  149	            }
+  150	        }
+  151	        while (newPass.length() < passwordLength);
+  152	        
+  153	        password = newPass;
+  154	        cout << "Your password has been updated!" << endl;
+  155	    }
+  156	}
+  157	
+  158	
+  159	//Deconstructor
+  160	Email::~Email()
+  161	{
+  162	
+  163	}
+  164	
+    1	/*
+    2	Name: Drew Lickman c8055315
+    3	Class: 2170-001
+    4	Professor: Dr. Yang
+    5	Due: 11/5/21
+    6	*/
+    7	#include <iostream>
+    8	#include "Email.h"
+    9	using namespace std;
+   10	
+   11	int main()
+   12	{
+   13	    Email myEmail; //create myEmail
+   14	    myEmail.displayInfo(); //show email, password, mbcap
+   15	    myEmail.passwordChange(); //change password algorithm
+   16	    
+   17	    /*
+   18	    The Email class fully supports the two string arguements constructor
+   19	    Email secondEmail("Ada", "Love");
+   20	    secondEmail.displayInfo();
+   21	    secondEmail.passwordChange();
+   22	    */
+   23	    return 0;
+   24	}
+   25	
+    1	## compiler
+    2	CXX = g++ -std=c++11
+    3	CXXFLAGS = -pedantic -g
+    4	
+    5	EmailMainALL: EmailMain.o Email.o
+    6	    $(CXX) $(CXXFLAGS) EmailMain.o Email.o -o EmailMainALL
+    7	
+    8	EmailMain.o: EmailMain.cpp Email.h
+    9	    $(CXX) $(CXXFLAGS) -c EmailMain.cpp
+   10	
+   11	Email.o: Email.cpp Email.h
+   12	    $(CXX) $(CXXFLAGS) -c Email.cpp
+   13	
+   14	clean:
+   15	    $(RM) EmailMainALL *.o
+$ make clean
+rm -f EmailMainALL *.o
+$ make
+g++ -std=c++11 -pedantic -g -c EmailMain.cpp
+g++ -std=c++11 -pedantic -g -c Email.cpp
+g++ -std=c++11 -pedantic -g EmailMain.o Email.o -o EmailMainALL
+$ EmailMainALL
+Please enter your first name: Xin
+Please enter your last name: Yang
+Xin Yang, please enter your department code:
+0: None
+1: Computer Science
+2: Accounting
+3: Electrical Engineering
+1
+
+Your default password is:
+XGR97P0MJV
+Your email account has been created successfully!
+
+Your Email Account Information: 
+======================================
+     Email address: Xin.Yang@cs.mtsu.edu
+          Password: XGR97P0MJV
+  Mailbox capacity: 500MB
+======================================
+Do you want to change your password? (Y/N)
+y
+Enter your new password: 
+@6583Y45!LongPassword
+Your password has been updated!
+$ EmailMainALL
+Please enter your first name: Ada
+Please enter your last name: Love
+Ada Love, please enter your department code:
+0: None
+1: Computer Science
+2: Accounting
+3: Electrical Engineering
+0
+
+Your default password is:
+XGR97P0MJV
+Your email account has been created successfully!
+
+Your Email Account Information: 
+======================================
+     Email address: Ada.Love@mtsu.edu
+          Password: XGR97P0MJV
+  Mailbox capacity: 500MB
+======================================
+Do you want to change your password? (Y/N)
+y
+Enter your new password: 
+@546hyi29Password4CoolPeeps
+Your password has been updated!
+$ exit
+exit
+
+Script done on Wed 03 Nov 2021 01:45:16 PM CDT

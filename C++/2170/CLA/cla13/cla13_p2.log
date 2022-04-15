@@ -1,0 +1,76 @@
+Script started on Wed 20 Oct 2021 03:10:02 PM CDT
+$ cat -n cla13b.cc
+     1	/*
+     2	Author: Drew Lickman c8055315
+     3	Professor: Dr. Yang
+     4	Class: 2170-001
+     5	Lab: CLA13: Programming Exercise 2)
+     6	Due: 10/20/21
+     7	Description: Input students from students.txt and output them from the vector
+     8	*/
+     9	
+    10	#include<iostream>
+    11	#include<string>
+    12	#include<fstream>
+    13	#include<vector>
+    14	#include<iomanip>
+    15	using namespace std;
+    16	
+    17	struct Student
+    18	{
+    19		string name;
+    20		string major;
+    21		double gpa;
+    22	};
+    23	
+    24	void getStudentInfo(Student &stud, ifstream &inFile)
+    25	{
+    26			string junk;
+    27			getline(inFile, stud.name);
+    28			getline(inFile, stud.major);
+    29			inFile >> stud.gpa;
+    30			getline(inFile, junk);
+    31	}
+    32	
+    33	void printStudentInfo(const vector<Student> &students)
+    34	{
+    35		for (int i = 0; i < students.size(); i++)
+    36		{
+    37			cout << "Student name: " <<  fixed << setw(20) << left << students[i].name;
+    38			cout << "Student major: " << fixed << setw(20) << left << students[i].major;
+    39			cout << "Student GPA: " <<  fixed << setw(20) << left << setprecision(2) << students[i].gpa << endl;
+    40		}
+    41	}
+    42	
+    43	
+    44	int main()
+    45	{
+    46		Student stud;
+    47		vector<Student> students;
+    48	
+    49		ifstream inFile;
+    50		inFile.open("students.txt");
+    51		if(!inFile)
+    52		{
+    53			cout << "File does not exist." << endl;
+    54			exit(EXIT_FAILURE);
+    55		}
+    56		while(inFile)
+    57		{
+    58			getStudentInfo(stud, inFile);
+    59			students.push_back(stud); 
+    60		}
+    61		printStudentInfo(students);
+    62		inFile.close();
+    63		return 0;
+    64	}
+    65	
+$ c++ cla13b.cc
+$ a.out
+Student name: Adam White          Student major: Biology             Student GPA: 3.50                
+Student name: Mary Williams       Student major: Aerospace           Student GPA: 3.75                
+Student name: John Smith          Student major: Computer Science    Student GPA: 3.50                
+$ [K$ [K$ exit
+exit
+
+Script done on Wed 20 Oct 2021 03:10:33 PM CDT

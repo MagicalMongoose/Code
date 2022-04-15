@@ -1,0 +1,103 @@
+Script started on Tue 23 Nov 2021 11:00:57 AM CST
+$ pr -n -t -e4 stack.cpp
+    1	/*
+    2	(a) Your name and C-number (Drew Lickman--c8055315)
+    3	(b) course ID, section number and professor's name (CSCI 2170-001 Dr. Xin Yang)
+    4	(c) the closed lab session number (CLA18: Programming Exericse 1)
+    5	(d) Program Description: Stack Exercise
+    6	(e) the date of the lab (e.g: Nov 22nd, 2021)
+    7	*/
+    8	#include<iostream>
+    9	#include<stack> // stack container
+   10	#include<fstream> // file processing
+   11	#include<string>
+   12	using namespace std;
+   13	
+   14	int main()
+   15	{
+   16	//s_reverse is used to hold the list of names in reverse order
+   17	//s_orig is used to hold the list of names in original order
+   18	stack<string> s_reverse, s_orig; 
+   19	
+   20	ifstream inFile;
+   21	inFile.open("names.dat");
+   22	if(!inFile)
+   23	{
+   24	    cout << "File NOT Found!" << endl;
+   25	    exit(EXIT_FAILURE);
+   26	}
+   27	
+   28	//Your code to read the list of names and push to the stack s_orig
+   29	//(1)prime reading using getline
+   30	string name; 
+   31	getline(inFile, name);
+   32	//(2)push the name to the stack s_orig
+   33	s_reverse.push(name);
+   34	//(3)while loop to check end-of-file
+   35	while(!inFile.eof())
+   36	    {   
+   37	        //a. read the next name in the file
+   38	        getline(inFile, name);
+   39	        //b. push the name to the stack s_orig
+   40	        s_reverse.push(name);
+   41	    }
+   42	cout << "The names in reverse order:\n";
+   43	cout << "================================\n"; 
+   44	//Your code to print out the list of names in reverse order
+   45	while(!s_reverse.empty())
+   46	    {
+   47	        cout << s_reverse.top() << endl;
+   48	        s_orig.push(s_reverse.top());
+   49	        s_reverse.pop();
+   50	    }
+   51	//Note: you may push the names of s_orig to the s_reverse before you pop 
+   52	//Your code to print out the lsit of names in orginal order  
+   53	cout << "The names in original order:\n";
+   54	cout << "================================\n"; 
+   55	while(!s_orig.empty())
+   56	    {
+   57	        cout << s_orig.top() << endl;
+   58	        s_reverse.push(s_orig.top());
+   59	        s_orig.pop();
+   60	    }
+   61	inFile.close();
+   62	return 0;      
+   63	}
+$ a.[K[Kc++ stack.cpp
+$ a.out
+The names in reverse order:
+================================
+
+Patrick Eddleman
+Joyce Doyle
+Susan Demo
+Abigail Nash
+Vivian Moore
+Jill Jones
+Roy Fisher
+Morgan Freeman
+Michael Pitt
+Richard Tennant
+Mark Zuckerberg
+Mick Jagger
+Billy Joel
+The names in original order:
+================================
+Billy Joel
+Mick Jagger
+Mark Zuckerberg
+Richard Tennant
+Michael Pitt
+Morgan Freeman
+Roy Fisher
+Jill Jones
+Vivian Moore
+Abigail Nash
+Susan Demo
+Joyce Doyle
+Patrick Eddleman
+
+$ exit
+exit
+
+Script done on Tue 23 Nov 2021 11:01:32 AM CST

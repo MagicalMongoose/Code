@@ -1,0 +1,422 @@
+Script started on Wed 27 Oct 2021 04:22:21 PM CDT
+$ pr -n -t -e4 storeClassb.h storeClassb.cc inlab7b.cc
+    1	//File: storeClassb.h
+    2	//
+    3	//This is the specification file for a store class.
+    4	//Each store contains data members that contain 
+    5	//information about chairs and tables sold by the store
+    6	//as well as the name of the store.
+    7	
+    8	#include <string>
+    9	using namespace std;
+   10	
+   11	//prevent multiple inclusions
+   12	#ifndef STORE_CLASS_H
+   13	#define STORE_CLASS_H
+   14	
+   15	class StoreClass
+   16	{
+   17	public:
+   18	    //Read the data for a store from a file.  The name of the 
+   19	    //file is passed as an argument to this method
+   20	    void readFile (string filename);
+   21	
+   22	    //print information about the store
+   23	
+   24	    //You should define 3 printStore overloaded functions:
+   25	    //One printStore requires a string as a parameter.
+   26	    //One printStore requires an integer as a parameter.
+   27	    //One printStore requires both an integer and a string 
+   28	    //as a parameter.
+   29	    void printStore();
+   30	    void printStore(string s);
+   31	    void printStore(int x);
+   32	    void printStore(string s, int x);
+   33	
+   34	private:
+   35	    //define a struct for a Chair type
+   36	    struct Chair
+   37	    {
+   38	        string designer;   //chair designer's name
+   39	        bool cushion;      //does it have a cushion
+   40	        string material;   //type of material used in the chair
+   41	        string color;      //color of the chair
+   42	        int qty;           //quantity of this chair
+   43	    };
+   44	
+   45	    //define a struct for a Table type
+   46	    struct Table
+   47	    {
+   48	        string designer;   //table designer's name
+   49	        bool glass;        //does the chair have glass
+   50	        string material;   //type of material used in the table
+   51	        string color;      //table's color
+   52	        int qty;           //quantity of this table
+   53	    };
+   54	
+   55	    //data members in the store
+   56	    Chair chairArray[100];  //the store contains many chairs
+   57	    Table tableArray[100];  //and many tables
+   58	    int totalTables;        //number of tables
+   59	    int totalChairs;        //number of chairs
+   60	    string storeName;       //name of the store
+   61	
+   62	};
+   63	
+   64	#endif
+    1	//File: storeClassb.cc
+    2	//
+    3	//This is the implementation file for a store class.
+    4	//Each store contains data members that contain 
+    5	//information about chairs and tables sold by the store
+    6	//as well as the name of the store.
+    7	
+    8	#include "storeClassb.h"
+    9	#include <iostream>
+   10	#include <fstream>
+   11	#include <string>
+   12	#include <cstdlib>
+   13	using namespace std;
+   14	
+   15	//This method receives the name of the file containig
+   16	//store data.  It reads all data about the store.
+   17	//The data file contains the name of the store followed
+   18	//by information about chairs and tables. If a chair's 
+   19	//information appears in the file, it is preceeded by
+   20	//the string "Chair".  If a table's information appears
+   21	//in the file, it is preceeded by the string "Table".
+   22	void StoreClass::readFile(string filename)
+   23	{
+   24	    string input;                 //input a string from the file
+   25	    ifstream myFile;              //input file stream
+   26	    totalChairs = 0;              //set the chair counter to 0
+   27	    totalTables = 0;              //set the table counter to 0
+   28	
+   29	    //open the data file & check to make sure it opened
+   30	    myFile.open(filename.c_str());
+   31	    if (!myFile)
+   32	    {
+   33	        cerr << "Data file failed to open!\n";
+   34	        exit (0);
+   35	    }
+   36	
+   37	    //read the store's name
+   38	    myFile >> input;
+   39	
+   40	    //check for an empty file
+   41	    if(input!="")
+   42	    {
+   43	        //set the store's name
+   44	        storeName = input;
+   45	
+   46	        //read in chairs & tables until end-of-file
+   47	        //read the type of the next item
+   48	        myFile >> input;
+   49	        while(myFile)
+   50	        {
+   51	
+   52	
+   53	            //the next item is a chair
+   54	            if(input == "Chair")
+   55	            {
+   56	                //create a Chair object and fill it with data
+   57	                Chair chair1;            
+   58	                myFile >> chair1.designer;
+   59	                myFile >> chair1.color;
+   60	                myFile >> chair1.material;
+   61	                
+   62	                //read a string to indicate whether the chair
+   63	                //has a cushion or not
+   64	                myFile >> input;
+   65	                if(input == "true")
+   66	                {
+   67	                    chair1.cushion = true;
+   68	                }
+   69	                else
+   70	                    chair1.cushion = false;
+   71	                myFile >> chair1.qty;
+   72	                
+   73	                //place the chair into the array of chairs
+   74	                chairArray[totalChairs] = chair1;
+   75	                totalChairs +=1;
+   76	            }
+   77	            //the next item is a table
+   78	            else if(input == "Table")
+   79	            {
+   80	                //create a Table object and fill it with data
+   81	                Table table1;
+   82	                myFile >> table1.designer;
+   83	                myFile >> table1.color;
+   84	                myFile >> table1.material;
+   85	                
+   86	                //read a string to indicate whether the table
+   87	                //has glass or not
+   88	                myFile >> input;
+   89	                if(input == "true")
+   90	                {
+   91	                    table1.glass = true;
+   92	                }
+   93	                else
+   94	                    table1.glass = false;
+   95	                myFile >> table1.qty;
+   96	                
+   97	                //place the chair into the array of tables
+   98	                tableArray[totalTables] = table1;
+   99	                totalTables+=1;
+  100	            }
+  101	            //read the type of the next item
+  102	            myFile >> input;
+  103	
+  104	        }
+  105	    }
+  106	}
+  107	
+  108	//This method prints all information about all tables
+  109	//and chairs in the store.
+  110	void StoreClass::printStore()
+  111	{
+  112	    //print all information about Chairs sold by
+  113	    //the store
+  114	    if (totalChairs > 0)
+  115	        cout << "Inventory of Chairs" << endl;
+  116	    else
+  117	        cout << "No chairs in Inventory" << endl;
+  118	    for(int i = 0; i < totalChairs; i++)
+  119	    {
+  120	        cout << chairArray[i].designer <<"\t";
+  121	        cout << chairArray[i].color << "\t";
+  122	        cout << chairArray[i].material << "\t";
+  123	        if(chairArray[i].cushion == true)
+  124	            cout << "Cushioned\t" <<endl;
+  125	        else
+  126	            cout << "Not Cushioned\t" << endl;
+  127	        cout << "Qty in Stock: " << chairArray[i].qty << endl;
+  128	    }
+  129	
+  130	    //print all information about Tables sold by
+  131	    //the store
+  132	    if (totalTables > 0)
+  133	        cout << "\n\nInventory of Tables" << endl;
+  134	    else
+  135	        cout << "\n\nNo tables in Inventory" << endl;
+  136	    for(int i = 0; i < totalTables; i++)
+  137	    {
+  138	        cout << tableArray[i].designer <<"\t";
+  139	        cout << tableArray[i].color << "\t";
+  140	        cout << tableArray[i].material << "\t";
+  141	        if(tableArray[i].glass == true)
+  142	            cout << "Glass Top\t" <<endl;
+  143	        else
+  144	            cout << "No Glass Top\t" << endl;
+  145	        cout << "Qty in Stock: " << tableArray[i].qty << endl;
+  146	    }
+  147	
+  148	}
+  149	
+  150	
+  151	//This method receives the type of product that the user
+  152	//wishes information about.  All products of that type
+  153	//are printed.
+  154	void StoreClass::printStore(string type)
+  155	{
+  156	    //if the type was "Chair", then print all inventory
+  157	    //pertaining to chairs
+  158	    if(type == "Chair")
+  159	    {
+  160	        if (totalChairs > 0)
+  161	            cout << "Inventory of Chairs" << endl;
+  162	        else
+  163	            cout << "No chairs in Inventory" << endl;
+  164	        for(int i = 0; i < totalChairs; i++)
+  165	        {
+  166	            cout << chairArray[i].designer <<"\t";
+  167	            cout << chairArray[i].color << "\t";
+  168	            cout << chairArray[i].material << "\t";
+  169	            if(chairArray[i].cushion == true)
+  170	                cout << "Cushioned\t" <<endl;
+  171	            else
+  172	                cout << "Not Cushioned\t" << endl;
+  173	            cout << "Qty in Stock: " << chairArray[i].qty << endl;
+  174	        }
+  175	    }
+  176	    else if (type == "Table")
+  177	    {
+  178	        if (totalTables > 0)
+  179	            cout << "\n\nInventory of Tables" << endl;
+  180	        else
+  181	            cout << "\n\nNo tables in Inventory" << endl;
+  182	        for(int i = 0; i<  totalTables; i++)
+  183	        {
+  184	            cout << tableArray[i].designer <<"\t";
+  185	            cout << tableArray[i].color << "\t";
+  186	            cout << tableArray[i].material << "\t";
+  187	            if(tableArray[i].glass == true)
+  188	                cout << "Glass Top\t" <<endl;
+  189	            else
+  190	                cout << "No Glass Top\t" << endl;
+  191	            cout << "Qty in Stock: " << tableArray[i].qty << endl;
+  192	        }
+  193	    }
+  194	}
+  195	
+  196	//This method receives the type of product that the user
+  197	//wishes information about.  It also receives an integer
+  198	//quantity and prints all items of the given type that
+  199	//need to be reordered.  An item needs to be reordered
+  200	//if the store contains a quantity of that item less than
+  201	//the quantity received.
+  202	void StoreClass::printStore(string type,int qty)
+  203	{
+  204	    int count = 0;
+  205	    string temp = "";
+  206	
+  207	    //if the type desired is a Chair
+  208	    if(type == "Chair")
+  209	    {
+  210	        cout << "Chairs to be Re-Ordered: " << endl;
+  211	        for(int i =0; i < totalChairs; i++)
+  212	        {
+  213	            //if a chair needs to be reordered print it
+  214	            if(chairArray[i].qty < qty)
+  215	            {
+  216	                cout << chairArray[i].designer <<"\t";
+  217	                cout << chairArray[i].color << "\t";
+  218	                cout << chairArray[i].material << "\t";
+  219	                if(chairArray[i].cushion == true)
+  220	                    cout << "Cushioned\t" <<endl;
+  221	                else
+  222	                    cout << "Not Cushioned\t" << endl;
+  223	                cout << "Qty in Stock: " << chairArray[i].qty << endl;
+  224	            }
+  225	        }
+  226	    }
+  227	    //if the type desired is a table
+  228	    else if(type == "Table")
+  229	    {
+  230	        cout << "Tables to be Re-Ordered" << endl;
+  231	        temp = tableArray[0].designer;
+  232	        for(int i =0;i<totalTables;i++)
+  233	        {
+  234	            //if a table needs to be reordered print it
+  235	            if(tableArray[i].qty < qty)
+  236	            {
+  237	                cout << tableArray[i].designer <<"\t";
+  238	                cout << tableArray[i].color << "\t";
+  239	                cout << tableArray[i].material << "\t";
+  240	                if(tableArray[i].glass == true)
+  241	                    cout << "Glass Top\t" <<endl;
+  242	                else
+  243	                    cout << "No Glass Top\t" << endl;
+  244	                cout << "Qty in Stock: " << tableArray[i].qty << endl;
+  245	            }
+  246	        }
+  247	    }
+  248	            
+  249	}
+  250	
+  251	//This method receives an integer quantity and prints 
+  252	//all items that need to be reordered.  An item needs to be 
+  253	//reordered if the store contains a quantity of that item
+  254	//less than the quantity received.
+  255	void StoreClass::printStore(int qty)
+  256	{
+  257	    //print all chairs that need to be reordered
+  258	    cout << "Chairs to be Re-Ordered" << endl;
+  259	    for(int i =0;i<totalChairs;i++)
+  260	    {
+  261	        if(chairArray[i].qty < qty)
+  262	        {
+  263	            cout << chairArray[i].designer <<"\t";
+  264	            cout << chairArray[i].color << "\t";
+  265	            cout << chairArray[i].material << "\t";
+  266	            if(chairArray[i].cushion == true)
+  267	                cout << "Cushioned\t" <<endl;
+  268	            else
+  269	                cout << "Not Cushioned\t" << endl;
+  270	            cout << "Qty in Stock: " << chairArray[i].qty << endl;
+  271	        }
+  272	    }
+  273	
+  274	    //print all tables that need to be reordered
+  275	    cout << "\nTables to be Re-Ordered" << endl;
+  276	    for(int i =0;i<totalTables;i++)
+  277	    {
+  278	        if(tableArray[i].qty < qty)
+  279	        {
+  280	            cout << tableArray[i].designer <<"\t";
+  281	            cout << tableArray[i].color << "\t";
+  282	            cout << tableArray[i].material << "\t";
+  283	            if(tableArray[i].glass == true)
+  284	                cout << "Glass Top\t" <<endl;
+  285	            else
+  286	                cout << "No Glass Top\t" << endl;
+  287	            cout << "Qty in Stock: " << tableArray[i].qty << endl;
+  288	        }
+  289	    }
+  290	}
+    1	//File: inlab7b.cc
+    2	//
+    3	//This is a simple test program to test the 
+    4	//store class.
+    5	
+    6	#include "storeClassb.h"
+    7	#include <iostream>
+    8	using namespace std;
+    9	
+   10	int main()
+   11	{
+   12	    //create an instance of the store class
+   13	    StoreClass store1;
+   14	
+   15	    //read in informaton about the store
+   16	    store1.readFile ("ex3_data.0");
+   17	
+   18	    //print all information about "Tables" sold by
+   19	    //the store. Place the activation below
+   20	    store1.printStore();
+   21	    //print all information about "Chairs" with a
+   22	    //quantity < 7.  Place the activation below
+   23	    cout << endl << endl;
+   24	    store1.printStore("Chairs", 7);
+   25	
+   26	    //print all products sold by the store with a
+   27	    //quantity < 19.  Place the activation below
+   28	    cout << endl << endl;
+   29	    store1.printStore(19);
+   30	
+   31	    return 0;
+   32	}
+   33	
+$ c++ storeClassb.cc inlab7b.cc
+a$ a.out
+Inventory of Chairs
+Broy-Hill	Red	Leather	Cushioned	
+Qty in Stock: 15
+La-Z-Boy	Black	Microfiber	Not Cushioned	
+Qty in Stock: 4
+
+
+Inventory of Tables
+Rooms-To-Go	Brown	Wood	No Glass Top	
+Qty in Stock: 13
+Haverty's	Black	Metal	Glass Top	
+Qty in Stock: 9
+
+
+
+
+Chairs to be Re-Ordered
+Broy-Hill	Red	Leather	Cushioned	
+Qty in Stock: 15
+La-Z-Boy	Black	Microfiber	Not Cushioned	
+Qty in Stock: 4
+
+Tables to be Re-Ordered
+Rooms-To-Go	Brown	Wood	No Glass Top	
+Qty in Stock: 13
+Haverty's	Black	Metal	Glass Top	
+Qty in Stock: 9
+$ exit
+exit
+
+Script done on Wed 27 Oct 2021 04:22:43 PM CDT

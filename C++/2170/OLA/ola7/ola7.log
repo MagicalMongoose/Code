@@ -1,0 +1,483 @@
+Script started on Mon 06 Dec 2021 03:36:30 PM CST
+$ pr -n -t -e4 sList.h sList.cpp sList.[K_main.cpp makefile
+    1	#ifndef SLIST_H
+    2	#define SLIST_H
+    3	
+    4	#include<string>
+    5	using namespace std;
+    6	
+    7	//Please declare the struct type 
+    8	//SongType
+    9	struct SongType
+   10	{
+   11	    string singer;
+   12	    string song;
+   13	    string year;
+   14	    string rank;
+   15	    
+   16	};
+   17	
+   18	class sList
+   19	{
+   20	    private:
+   21	        //Declaration a structure of the Nodes
+   22	        struct Node
+   23	        {
+   24	            SongType song;
+   25	            Node *next;
+   26	        };
+   27	        // List head Pointer
+   28	        Node *head = nullptr;
+   29	
+   30	    public:
+   31	        //Constructor
+   32	        sList();
+   33	        //~Destructor
+   34	        ~sList();
+   35	        
+   36	        //Linked List Operations 
+   37	        //Insertion Operations for the linked list
+   38	        void insertAtEnd(SongType song);
+   39	        //Get user input to append to songList 
+   40	        void insertAtEnd(); 
+   41	        //Print out data in the list
+   42	        void displayList(string year);
+   43	        //Search for the artist
+   44	        void lookUpArtist(string artist);
+   45	        //deletion oprations for the linked list
+   46	        void deleteSong(string songname);
+   47	};
+   48	#endif
+    1	#include<iostream>
+    2	#include"sList.h"
+    3	#include<iomanip>
+    4	#include<string>
+    5	using namespace std;
+    6	
+    7	//Constructor
+    8	sList::sList()
+    9	{
+   10	
+   11	}
+   12	
+   13	
+   14	//~Destructor
+   15	sList::~sList()
+   16	{
+   17	    Node *cur = head;
+   18	    while(cur != nullptr)
+   19	    {
+   20	        //delete the Node pointed to by head
+   21	        head = head->next; // move head to the next Node
+   22	        cur->next = nullptr; 
+   23	        delete cur; //deallocate memory
+   24	        cur = head; //make cur point to the new Node
+   25	    }
+   26	}
+   27	        
+   28	    /*insertAtEnd()
+   29	    Function purpose: Append a song object to the end of the song list
+   30	    Expected input: Song object
+   31	    Expected return: N/A
+   32	    */
+   33	void sList::insertAtEnd(SongType song)
+   34	{
+   35	    //create a new Node to hold the data
+   36	    Node *newSong = new Node;
+   37	    newSong->song = song;
+   38	
+   39	    newSong->next = nullptr;
+   40	    Node *tail = head;
+   41	    // if the list is empty
+   42	    if (head == nullptr)
+   43	    {
+   44	        //make the new node as the head
+   45	        head = newSong;
+   46	        tail = head;
+   47	    }
+   48	    else if (tail != nullptr)
+   49	    { 
+   50	        //insert the new node to the end of the List
+   51	        while(tail->next != nullptr)
+   52	        {
+   53	            tail = tail->next;
+   54	        }
+   55	        tail->next = newSong;
+   56	        tail = newSong;
+   57	    }
+   58	
+   59	}
+   60	
+   61	    /*insertAtEnd()
+   62	    Function purpose: Append a song object to the end of the song list, but takes manual user input
+   63	    Expected input: User input as directed by console 
+   64	    Expected return: Text prompts for user to input data
+   65	    */
+   66	void sList::insertAtEnd()
+   67	{
+   68	    SongType song;
+   69	    //Get user input for new song
+   70	    cout << "Enter the song's rank: ";
+   71	    getline(cin, song.rank);
+   72	    cout << "Enter the song's artist ";
+   73	    getline(cin, song.singer);
+   74	    cout << "Enter the song's title ";
+   75	    getline(cin, song.song);
+   76	    cout << "Enter the song's year ";
+   77	    getline(cin, song.year);
+   78	
+   79	    Node *newSong = new Node;
+   80	    newSong->song = song;
+   81	    
+   82	    newSong->next = nullptr;
+   83	    Node *tail = head;
+   84	    if (head == nullptr)
+   85	    { 
+   86	        head = newSong;
+   87	    }
+   88	    else
+   89	    {
+   90	        while(tail->next != nullptr)
+   91	        {
+   92	            tail = tail->next;
+   93	        }   
+   94	        tail->next = newSong;
+   95	        tail = newSong;
+   96	    }
+   97	}
+   98	
+   99	    /*deleteSong()
+  100	    Function purpose: Deletes song from songlist
+  101	    Expected input: Song title string
+  102	    Expected return: N/A, deletes song from song list
+  103	    */
+  104	void sList::deleteSong(string songname)
+  105	{
+  106	    //cur will point to the item to delete
+  107	    Node* cur = head; 
+  108	    //prev will point to the item before cur
+  109	    Node* prev; 
+  110	    int i = 1;
+  111	    if(head == nullptr)
+  112	    //if the list is empty
+  113	    {
+  114	        // Not enough items in List.
+  115	        cout << "Not enough items in list\n";
+  116	    }
+  117	    else
+  118	    {   //Traverse the list to find the song
+  119	        //Delete the song if it is found
+  120	        while(cur->song.song != songname && cur->next != nullptr)
+  121	        {
+  122	            prev = cur;
+  123	            cur = cur->next;
+  124	            i++;
+  125	        }
+  126	        if(cur->song.song == songname)
+  127	        {
+  128	            prev->next = cur->next;
+  129	            delete cur;
+  130	        }
+  131	        else
+  132	        {
+  133	            cout << songname << " is not in this list.\n";
+  134	        }
+  135	    }
+  136	}
+  137	
+  138	    /*displayList()
+  139	    Function purpose: Displays all songs in a given year
+  140	    Expected input: Year number as a string
+  141	    Expected return: Displays all songs in a given year
+  142	    */
+  143	void sList::displayList(string year)
+  144	{
+  145	    //print the songs in given year
+  146	    cout << "--------------------------------\n";
+  147	    cout << "The song list for " << year << endl;
+  148	    
+  149	    Node *cur = head;
+  150	    int i = 1;
+  151	    while(cur != nullptr)
+  152	    {
+  153	        if (cur->song.year == year)
+  154	        {
+  155	            cout << i << ". " << cur->song.singer << " \"" <<  cur->song.song << "\"" << endl;
+  156	        }
+  157	        i++;
+  158	        cur = cur->next;
+  159	    }
+  160	}
+  161	
+  162	    /*lookUpArtist()
+  163	    Function purpose: Displays all songs from the given artist
+  164	    Expected input: Song artist as a string
+  165	    Expected return: Displays all songs from the given artist
+  166	    */
+  167	void sList::lookUpArtist(string artist)
+  168	{
+  169	    cout << "The search results for " << artist << endl;
+  170	    cout << "-------------------------------\n";
+  171	    //use while loop to search the artist 
+  172	    Node *cur = head;
+  173	    while(cur != nullptr)
+  174	    { 
+  175	        if (cur->song.singer == artist)
+  176	        {
+  177	            //display all songs of the artist
+  178	            cout << cur->song.year << " " << left << setw(30) << cur->song.song << " " << cur->song.rank << endl;
+  179	        }   
+  180	        cur = cur->next;    
+  181	        
+  182	    }
+  183	    
+  184	}
+    1	#include<iostream>
+    2	#include<fstream>
+    3	#include<string>
+    4	#include"sList.h"
+    5	using namespace std;
+    6	
+    7	//prototypes
+    8	void readSong(SongType &, ifstream &);
+    9	void mainMenu();
+   10	
+   11	int main()
+   12	{
+   13	    cout << "Welcome to Billboard Top Song (2015-2020) App\n\n";
+   14	    ifstream inFile;
+   15	    inFile.open("topsongs.dat");
+   16	    
+   17	    if(!inFile)
+   18	    {
+   19	        cout << "File Not Found!" << endl;
+   20	        exit(EXIT_FAILURE);
+   21	    }
+   22	
+   23	    sList songList;
+   24	    SongType song;  
+   25	
+   26	    //prime reading
+   27	    readSong(song,inFile); // read the first song from the datafile
+   28	    while(inFile)
+   29	    {   
+   30	        // insert the song to the end of songList
+   31	        songList.insertAtEnd(song);
+   32	        readSong(song,inFile);
+   33	    }
+   34	    
+   35	    char choice;    
+   36	    do
+   37	    {
+   38	        string reply;
+   39	        mainMenu();
+   40	        cout << "Enter your choice: ";
+   41	        string junk;
+   42	        cin >> choice;
+   43	        getline(cin, junk);
+   44	        switch(choice)
+   45	        {
+   46	        case '1':
+   47	            //prompt the user to enter a new song (singer, song, year, rank)
+   48	            readSong(song, inFile);
+   49	            //call the insertAtEnd method to insert the song to the end of the songList
+   50	            songList.insertAtEnd();
+   51	            break;
+   52	        case '2': 
+   53	            //prompt the user to enter the song to delete
+   54	            cout << "Please enter the song to delete: \n";
+   55	            getline(cin, reply);
+   56	            //call the deleteSong method to delete the song
+   57	            songList.deleteSong(reply);
+   58	            break;
+   59	        case '3':
+   60	            //prompt the user to enter the artist name 
+   61	            cout << "Please enter the artist name: \n";
+   62	            getline(cin, reply);
+   63	            //call the lookUpArtist method to search for the songs for artist
+   64	            songList.lookUpArtist(reply);   
+   65	            break;
+   66	        case '4':
+   67	            //prompt the user to enter the year
+   68	            cout << "Please enter the year: \n";
+   69	            cin >> reply;
+   70	            //call the displayList method to search for the songs for year
+   71	            songList.displayList(reply);
+   72	            break;
+   73	        case '5':
+   74	            cout << "Thank you!" << endl;
+   75	            break;
+   76	        default:
+   77	            cout << "Invalid Option." << endl;
+   78	            break;
+   79	        }
+   80	    }while(choice != '5');
+   81	
+   82	    inFile.close();
+   83	
+   84	    return 0;
+   85	}
+   86	
+   87	    /*readSong()
+   88	    Function purpose: Take the input from a data file and save them to a song object (function used in loop)
+   89	    Expected input: The file to read data from and the object to store the data in
+   90	    Expected return: N/A
+   91	    */
+   92	void readSong(SongType &song,ifstream &inFile)
+   93	{
+   94	    getline(inFile, song.rank);
+   95	    getline(inFile, song.singer);
+   96	    getline(inFile, song.song);
+   97	    getline(inFile, song.year);
+   98	}
+   99	
+  100	    /*mainMenu()
+  101	    Function purpose: Show the user the main menu
+  102	    Expected input: N/A
+  103	    Expected return: Console output of text menu display
+  104	    */
+  105	void mainMenu()
+  106	{
+  107	    //display the menu to ther user
+  108	    cout << "-------------------------------\n";
+  109	    cout << endl;
+  110	    cout << "1. Add a song\n"; //1 --> readSong()
+  111	    cout << "2. Delete a song\n";
+  112	    cout << "3. Look Up an Artist\n";
+  113	    cout << "4. Display all songs by year\n";
+  114	    cout << "5. Exit\n";
+  115	}
+  116	
+    1	## compiler
+    2	CXX = g++ -std=c++11
+    3	CXXFLAGS = -pedantic -g
+    4	TARGET = sList
+    5	
+    6	mainALL: $(TARGET)_main.o $(TARGET).o
+    7	    $(CXX) $(CXXFLAGS) $(TARGET)_main.o $(TARGET).o -o mainALL
+    8	
+    9	$(TARGET)_main.o: $(TARGET)_main.cpp $(TARGET).h
+   10	    $(CXX) $(CXXFLAGS) -c $(TARGET)_main.cpp
+   11	
+   12	$(TARGET).o: $(TARGET).cpp $(TARGET).h
+   13	    $(CXX) $(CXXFLAGS) -c $(TARGET).cpp
+   14	
+   15	clean:
+   16	    $(RM) mainALL *.o
+$ make clean
+rm -f mainALL *.o
+$ make
+g++ -std=c++11 -pedantic -g -c sList_main.cpp
+g++ -std=c++11 -pedantic -g -c sList.cpp
+g++ -std=c++11 -pedantic -g sList_main.o sList.o -o mainALL
+$ mainALL
+Welcome to Billboard Top Song (2015-2020) App
+
+-------------------------------
+
+1. Add a song
+2. Delete a song
+3. Look Up an Artist
+4. Display all songs by year
+5. Exit
+Enter your choice: 3
+Please enter the artist name: 
+Katy Perry
+The search results for Katy Perry
+-------------------------------
+2015 Dark Horse                     1
+2015 Birthday                       59
+2014 Roar                           3
+2013 Wide Awake                     9
+2013 Part of Me                     10
+2013 The One That Got Away          36
+2012 Last Friday Night (TGIF)       15
+-------------------------------
+
+1. Add a song
+2. Delete a song
+3. Look Up an Artist
+4. Display all songs by year
+5. Exit
+Enter your choice: 2
+Please enter the song to delete: 
+Birthday
+-------------------------------
+
+1. Add a song
+2. Delete a song
+3. Look Up an Artist
+4. Display all songs by year
+5. Exit
+Enter your choice: 3
+Please enter the artist name: 
+Katy Perry
+The search results for Katy Perry
+-------------------------------
+2015 Dark Horse                     1
+2014 Roar                           3
+2013 Wide Awake                     9
+2013 Part of Me                     10
+2013 The One That Got Away          36
+2012 Last Friday Night (TGIF)       15
+-------------------------------
+
+1. Add a song
+2. Delete a song
+3. Look Up an Artist
+4. Display all songs by year
+5. Exit
+Enter your choice: 2
+Please enter the song to delete: 
+Winter is coming
+Winter is coming is not in this list.
+-------------------------------
+
+1. Add a song
+2. Delete a song
+3. Look Up an Artist
+4. Display all songs by year
+5. Exit
+Enter your choice: 1
+Enter the song's rank: 1
+Enter the song's artist Ada Love
+Enter the song's title c++ is fun
+Enter the song's year 2020
+-------------------------------
+
+1. Add a song
+2. Delete a song
+3. Look Up an Artist
+4. Display all songs by year
+5. Exit
+Enter your choice: 3
+Please enter the artist name: 
+Ada Lovelace
+The search results for Ada Lovelace
+-------------------------------
+-------------------------------
+
+1. Add a song
+2. Delete a song
+3. Look Up an Artist
+4. Display all songs by year
+5. Exit
+Enter your choice: 4
+Please enter the year: 
+2020
+--------------------------------
+The song list for 2020
+377. Ada Love "c++ is fun"
+-------------------------------
+
+1. Add a song
+2. Delete a song
+3. Look Up an Artist
+4. Display all songs by year
+5. Exit
+Enter your choice: 5
+Thank you!
+$ exit
+exit
+
+Script done on Mon 06 Dec 2021 03:38:33 PM CST

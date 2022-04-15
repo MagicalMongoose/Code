@@ -1,0 +1,451 @@
+Script started on Mon 18 Oct 2021 02:37:37 PM CDT
+$ pr -n -t -e4 inlab4.cc
+    1	//File:        inlab4.cc
+    2	//Programmer:
+    3	//Class:       CSCI 2170
+    4	//
+    5	//This program reads and prints information related to videos
+    6	//owned by Movie Rent Video Store.  
+    7	//
+    8	//The program reads data from the data files, inlab4.dat and 
+    9	//inlab4b.dat.  The data in inlab4.dat contains information about
+   10	//videos including the name of a video, the number of copies of a
+   11	//particular video, and the video type.  You will add code to this
+   12	//program to read information about the video store's customers
+   13	//from inlab4.dat.
+   14	//
+   15	//The user is allowed to select from a menu of options that includes:
+   16	// 1) Print a list of all videos owned by the Movie Rent Video Store
+   17	// 2) Print a list of all customers
+   18	// 3) Print out a list of rental information by video titles
+   19	// 0) Exit this program
+   20	
+   21	#include <iostream>
+   22	#include <fstream>
+   23	#include <string>
+   24	#include <cstdlib>
+   25	using namespace std;
+   26	
+   27	//maximum number of videos owned by the store
+   28	const unsigned int MAX_VIDEOS = 100;
+   29	
+   30	//maximum number of customers
+   31	const unsigned int MAX_CUSTOMERS = 20;
+   32	
+   33	//Definition of a Video structure
+   34	struct Video
+   35	{
+   36	    string movieTitle;         //name of movie
+   37	    unsigned int numberCopies; //number of copies
+   38	    string videoType;          //type of video
+   39	};
+   40	
+   41	//Definition of a customerType structure
+   42	struct customerType
+   43	{
+   44	       //Exercise 3 goes here
+   45	    string name;
+   46	    int id;
+   47	    string movieTitle;
+   48	    string returnDate;
+   49	};
+   50	
+   51	//function prototypes
+   52	int menuSelection();
+   53	void getVideo (Video&, ifstream&);
+   54	void printVideo (Video);
+   55	void getCustomer(customerType&, ifstream&);
+   56	void printCustomer(customerType);
+   57	void printRentalInfo(customerType[], string , int);
+   58	bool numberInSet(int x);
+   59	
+   60	int main ()
+   61	{
+   62	    //variables
+   63	    Video videoInfo;               //used to read in video information
+   64	    Video allVideos[MAX_VIDEOS];   //an array of videos owned by the store
+   65	    customerType customer;         //one customer's check out information
+   66	    customerType allCustomers[MAX_CUSTOMERS]; //array of customer check out info
+   67	    ifstream videoIn;              //input stream for video information
+   68	    ifstream customerIn;           //input stream for customer info
+   69	    int numVideos=0;               //how many videos? 
+   70	    int numCustomers=0;            //how many customers?
+   71	    int choice;                    //user's menu choice
+   72	
+   73	    //open the files and check for file failure
+   74	    videoIn.open ("inlab4.dat");
+   75	    if (!videoIn)
+   76	    {
+   77	        cerr << "inlab4.dat could not be opened!";
+   78	        exit (0);
+   79	    }
+   80	    customerIn.open("inlab4b.dat");
+   81	    if (!customerIn)
+   82	    {
+   83	        cerr << "inlab4b.dat could not be opened!";
+   84	        exit (0);
+   85	    }
+   86	
+   87	    //input all videos owned by the video store
+   88	    getVideo(allVideos[numVideos], videoIn);
+   89	    while (videoIn)
+   90	    {
+   91	        numVideos++;
+   92	        getVideo(allVideos[numVideos], videoIn);
+   93	    }
+   94	
+   95	    getCustomer(allCustomers[numCustomers], customerIn);
+   96	    while (customerIn)
+   97	    {
+   98	        printCustomer(allCustomers[numCustomers]);
+   99	        numCustomers++;
+  100	        getCustomer(allCustomers[numCustomers], customerIn);
+  101	    }
+  102	
+  103	
+  104	    //get the user's choice from the menu
+  105	    choice = menuSelection();
+  106	
+  107	    //loop until the user decides to quit
+  108	    while (choice != 0)
+  109	    {
+  110	        switch (choice)
+  111	        {
+  112	        //print all videos owned by the store
+  113	        case 1: {   
+  114	                  for (int i=0; i< numVideos; i++)
+  115	                    printVideo(allVideos[i]);
+  116	                  break;
+  117	                }
+  118	        //print all store customers
+  119	        case 2: {
+  120	                  for (int j=0; j< numCustomers; j++)
+  121	                     printCustomer(allCustomers[j]);
+  122	                  break;
+  123	                }
+  124	        //print out a list of rental information by video titles
+  125	        case 3: {
+  126	                  for (int k=0; k< numVideos; k++)
+  127	                  {
+  128	                     printVideo(allVideos[k]);
+  129	                     printRentalInfo(allCustomers, allVideos[k].movieTitle,numCustomers);
+  130	                  }
+  131	                  break;
+  132	                } 
+  133	        };
+  134	        choice = menuSelection();
+  135	    }
+  136	    return 0;
+  137	}
+  138	
+  139	//This method prints a menu, gets the user's selection and returns it.
+  140	int menuSelection()
+  141	{       
+  142	    int choice;          //the user's menu selection
+  143	
+  144	    //print the menu and make the user enter a valid menu selection
+  145	    do
+  146	    {
+  147	        cout <<"\n\n\n\n\n\n\nWelcome to Movie Rent Video Store Information";
+  148	        cout <<"\n\n 1----Print out list of all owned videos";
+  149	        cout <<"\n\n 2----Print out list of all customers";
+  150	        cout <<"\n\n 3----Print out list of rental information by video titles";
+  151	        cout <<"\n\n 0----Exit this program";
+  152	        cout <<"\n\n\n\nPlease enter choice and hit <ENTER>:";
+  153	        cin >> choice;
+  154	    }
+  155	    while (!numberInSet(choice));
+  156	    return choice;
+  157	}
+  158	
+  159	//This function determines whether the argument x is in 
+  160	//a valid range.  If it is, true is returned; otherwise
+  161	//return false.
+  162	bool numberInSet(int x)
+  163	{
+  164	    if ( x>3 || x< 0)
+  165	        return false;
+  166	    else
+  167	        return true;
+  168	}
+  169	
+  170	//This function reads information about a video from the file
+  171	//myIn.
+  172	void getVideo (Video& oneVideo, ifstream& myIn)
+  173	{
+  174	    char endOfLine;        //used to remove the end of line character
+  175	
+  176	    //get the video information
+  177	    getline(myIn, oneVideo.movieTitle);
+  178	    myIn >> oneVideo.numberCopies;
+  179	    myIn.get(endOfLine);
+  180	    getline (myIn, oneVideo.videoType);
+  181	}
+  182	
+  183	//Print out the information about a video.
+  184	void printVideo (Video oneVideo)
+  185	{
+  186	    cout << "\n\nName of video:\t\t" << oneVideo.movieTitle << endl;
+  187	    cout << "Number of copies:\t" << oneVideo.numberCopies << endl;
+  188	    cout << "Video type:  \t\t" << oneVideo.videoType << endl;
+  189	}
+  190	
+  191	//Read information about one customer from myIn.
+  192	void getCustomer(customerType& person, ifstream& myIn)
+  193	{
+  194	    char endOfLine;        //used to remove the end of line character 
+  195	    //Exercise 4 goes here
+  196	    getline(myIn, person.name);
+  197	    myIn >> person.id;
+  198	    myIn.get(endOfLine);
+  199	    getline(myIn, person.movieTitle);
+  200	    getline(myIn, person.returnDate);
+  201	}
+  202	
+  203	//This function receives an array of check out information for
+  204	//all customers, the title of a movie that has been checked out,
+  205	//and the number of customers.  The function prints a list of all
+  206	//the names of customers who have rented the video indicated in
+  207	//the movie title.
+  208	void printRentalInfo (customerType people[], string title, int numCustomers)
+  209	{
+  210	    //Exercise 7 goes here
+  211	    for (int i = 0; i < numCustomers; i++)
+  212	    {
+  213	        if(people[i].movieTitle == title)
+  214	        {
+  215	            cout << people[i].name << endl;
+  216	        }
+  217	    }
+  218	}
+  219	
+  220	//This function prints one person's check out information.
+  221	void printCustomer(customerType person)
+  222	{
+  223	    //Exercise 8 goes here
+  224	    cout << "Name: " << person.name << endl;
+  225	    cout << "ID: " << person.id << endl;
+  226	    cout << "Movie rented: " << person.movieTitle << endl;
+  227	    cout << "Return date: " << person.returnDate << endl;
+  228	}
+$ c++ inlab4.cc
+$ a.out
+Name: James W. Wilson
+ID: 1113
+Movie rented: A Bridge Too Far
+Return date: 11/19/95
+Name: Wanda T. Bear
+ID: 1114
+Movie rented: A Bridge Too Far
+Return date: 11/19/95
+Name: Linda W. Smith
+ID: 1115
+Movie rented: The Man in White
+Return date: 11/20/95
+Name: Carol M. Brown
+ID: 1117
+Movie rented: All the Robots
+Return date: 11/20/95
+Name: Franklin D. Russell
+ID: 1118
+Movie rented: The Man in White
+Return date: 11/21/95
+
+
+
+
+
+
+
+Welcome to Movie Rent Video Store Information
+
+ 1----Print out list of all owned videos
+
+ 2----Print out list of all customers
+
+ 3----Print out list of rental information by video titles
+
+ 0----Exit this program
+
+
+
+Please enter choice and hit <ENTER>:1
+
+
+Name of video:		A Bridge Too Far
+Number of copies:	10
+Video type:  		mystery
+
+
+Name of video:		The Cat and Mouse
+Number of copies:	5
+Video type:  		comedy
+
+
+Name of video:		Today is Night
+Number of copies:	20
+Video type:  		adventure
+
+
+Name of video:		The Movie Factor
+Number of copies:	19
+Video type:  		musical
+
+
+Name of video:		All the Robots
+Number of copies:	20
+Video type:  		horror
+
+
+Name of video:		The Sand
+Number of copies:	5
+Video type:  		adventure
+
+
+Name of video:		My Name is Sue
+Number of copies:	14
+Video type:  		comedy
+
+
+Name of video:		Why Me?
+Number of copies:	2
+Video type:  		mystery
+
+
+Name of video:		The Man in White
+Number of copies:	17
+Video type:  		musical
+
+
+
+
+
+
+
+Welcome to Movie Rent Video Store Information
+
+ 1----Print out list of all owned videos
+
+ 2----Print out list of all customers
+
+ 3----Print out list of rental information by video titles
+
+ 0----Exit this program
+
+
+
+Please enter choice and hit <ENTER>:2
+Name: James W. Wilson
+ID: 1113
+Movie rented: A Bridge Too Far
+Return date: 11/19/95
+Name: Wanda T. Bear
+ID: 1114
+Movie rented: A Bridge Too Far
+Return date: 11/19/95
+Name: Linda W. Smith
+ID: 1115
+Movie rented: The Man in White
+Return date: 11/20/95
+Name: Carol M. Brown
+ID: 1117
+Movie rented: All the Robots
+Return date: 11/20/95
+Name: Franklin D. Russell
+ID: 1118
+Movie rented: The Man in White
+Return date: 11/21/95
+
+
+
+
+
+
+
+Welcome to Movie Rent Video Store Information
+
+ 1----Print out list of all owned videos
+
+ 2----Print out list of all customers
+
+ 3----Print out list of rental information by video titles
+
+ 0----Exit this program
+
+
+
+Please enter choice and hit <ENTER>:3
+
+
+Name of video:		A Bridge Too Far
+Number of copies:	10
+Video type:  		mystery
+James W. Wilson
+Wanda T. Bear
+
+
+Name of video:		The Cat and Mouse
+Number of copies:	5
+Video type:  		comedy
+
+
+Name of video:		Today is Night
+Number of copies:	20
+Video type:  		adventure
+
+
+Name of video:		The Movie Factor
+Number of copies:	19
+Video type:  		musical
+
+
+Name of video:		All the Robots
+Number of copies:	20
+Video type:  		horror
+Carol M. Brown
+
+
+Name of video:		The Sand
+Number of copies:	5
+Video type:  		adventure
+
+
+Name of video:		My Name is Sue
+Number of copies:	14
+Video type:  		comedy
+
+
+Name of video:		Why Me?
+Number of copies:	2
+Video type:  		mystery
+
+
+Name of video:		The Man in White
+Number of copies:	17
+Video type:  		musical
+Linda W. Smith
+Franklin D. Russell
+
+
+
+
+
+
+
+Welcome to Movie Rent Video Store Information
+
+ 1----Print out list of all owned videos
+
+ 2----Print out list of all customers
+
+ 3----Print out list of rental information by video titles
+
+ 0----Exit this program
+
+
+
+Please enter choice and hit <ENTER>:0
+$ exit
+exit
+
+Script done on Mon 18 Oct 2021 02:38:00 PM CDT

@@ -1,0 +1,46 @@
+Script started on Wed 29 Sep 2021 03:45:22 PM CDT
+$ cat -n sentenceCapitalized.cpp 
+     1	/*
+     2	Name:  Drew Lickman c8055315
+     3	Course: 2170-001 Dr. Yang
+     4	CLA#: 1
+     5	Date: 9/29/21
+     6	Description: Input a string and output the string but the first character of each word is capitalized
+     7	*/
+     8	
+     9	#include <iostream>
+    10	#include <string>
+    11	#include <cctype>
+    12	using namespace std;
+    13	
+    14	//Method definition
+    15	string sentenceCapitalized(string str)
+    16	{	
+    17		int pos = str.find(" ");
+    18		str[0] = toupper(str[0]);
+    19		while (pos != string::npos)
+    20		{
+    21			str[pos+1] = toupper(str[pos+1]);
+    22			pos = str.find(" ", pos+1);
+    23		}
+    24		return str;
+    25	}
+    26	
+    27	int main()
+    28	{
+    29		cout << "Input a sentence, and this program will capitalize the first letter of each word" << endl;
+    30		string str;
+    31		getline(cin, str);
+    32		cout << sentenceCapitalized(str) << endl;
+    33		return 0;
+    34	}
+    35	
+$ c++ sentenceCapitalized.cpp -o p2.out 
+$ p2.out 
+Input a sentence, and this program will capitalize the first letter of each word
+i love programming! you are the semicolon to my statements.
+I Love Programming! You Are The Semicolon To My Statements.
+$ exit
+exit
+
+Script done on Wed 29 Sep 2021 03:45:56 PM CDT

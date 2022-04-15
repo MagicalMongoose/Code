@@ -1,0 +1,103 @@
+Script started on Wed 10 Nov 2021 04:19:25 PM CST
+$ pr -t -n -e4 insertInOrder.cc 
+    1	// File:  insertInOrder.cc
+    2	//
+    3	// This is the implementation file for the method that inserts an item in
+    4	// sorted order into a list for a ListClass object.
+    5	
+    6	#include "inlab8.h"
+    7	#include <iostream>
+    8	#include <fstream>
+    9	#include <stdlib.h>
+   10	using namespace std;
+   11	
+   12	#include "structs.h"
+   13	
+   14	
+   15	// This function appends the record 'newData' into the sorted position of the linked list.
+   16	// If the list is empty, the new node is the new head of the list.
+   17	void ListClass::insertInOrder(RecordType newData)
+   18	//      INOUT   IN
+   19	{
+   20	    NodePtrType pre, cur;//pointers to the new node and for
+   21	                                        //traversing the list
+   22	
+   23	    //Create a new node to hold the record.
+   24	    //Replace this with the code necessary to create a new node to hold 
+   25	    //the record.
+   26	    Node *newNode = new Node;
+   27	    newNode->data = newData;
+   28	
+   29	    //Replace this with the code:
+   30	    if (head == nullptr)
+   31	    {
+   32	        newNode->next = nullptr;
+   33	        head = newNode;
+   34	    }
+   35	    
+   36	
+   37	    //Replace this with the code:
+   38	    else if (newNode->data.acctNum < head->data.acctNum)//expression to check if the new acctNum is less than the head accNum)
+   39	    {
+   40	        newNode->next = head;
+   41	        head = newNode;
+   42	    }
+   43	    
+   44	    else
+   45	    {
+   46	        cur = head;
+   47	        pre = nullptr;
+   48	
+   49	        while (cur != nullptr && cur->data.acctNum < newNode->data.acctNum)
+   50	        {
+   51	            pre = cur;
+   52	            cur = cur->next;
+   53	        }
+   54	
+   55	        // put the new node where it belongs.
+   56	        //Replace this with the code necessary to traverse the list and find the
+   57	        //correct location for the new node to go.
+   58	        pre->next = newNode;
+   59	        newNode->next = cur;
+   60	
+   61	        
+   62	
+   63	       //Replace this with the code necessary to insert the new node into the list
+   64	        cur = newNode;
+   65	    }
+   66	}//end of insertInOrder function
+   67	
+$ c++ main8b.cc inlab8.cc insertInOrder.cc 
+$ a.out < Ex29_data.0
+Inserting data in ascending order by account number.
+1010	80.45
+1111	34.95
+1112	450.5
+1113	530
+$ a.out < Ex29_data.0[K1
+Inserting data in ascending order by account number.
+1010	80.45
+1111	34.95
+1112	450.5
+1113	530
+$ a.out < Ex29_data.1[K2
+Inserting data in ascending order by account number.
+1010	80.45
+1111	34.95
+1112	450.5
+1113	530
+$ a.out < Ex29_data.2[K3
+Inserting data in ascending order by account number.
+There are no items in the list
+$ a.out < Ex29_data.3[K4
+Inserting data in ascending order by account number.
+1112	450.5
+$ a.out < Ex29_data.4[K5
+Inserting data in ascending order by account number.
+1111	34.95
+1112	450.5
+1113	530
+$ exit
+exit
+
+Script done on Wed 10 Nov 2021 04:20:00 PM CST

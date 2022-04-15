@@ -1,0 +1,183 @@
+Script started on Fri 17 Sep 2021 04:04:28 PM CDT
+$ pr -n -t -e4 ola3.cpp
+    1	/*
+    2	Title: Equilateral Triangle Drawing App
+    3	Author: Drew Lickman
+    4	Professor: Dr. Yang
+    5	Class: CSCI 2170 - 001
+    6	Due: Sep 27, 2021 23:59 PM (Monday)
+    7	Description: Create an equilateral triangle using ASCII and 
+    8	also display how many total dots there are.
+    9	*/
+   10	#include <iostream>
+   11	using namespace std;
+   12	
+   13	int main()
+   14	{
+   15	    int min = 1;
+   16	    int max = 50;
+   17	    bool cont = true; //can't use continue because that's a keyword
+   18	    cout << "========================================================\n";
+   19	    cout << "Welcome to the Equilateral Triangle Drawing App\n";
+   20	    cout << "========================================================\n";
+   21	    
+   22	    do
+   23	    {
+   24	        int num;
+   25	        int total = 0;
+   26	        char response;
+   27	        cout << "How large would you like your equilatteral triangle to be?\n";
+   28	        cin >> num;
+   29	
+   30	        for (int c = 0; c < num; c++)
+   31	        {
+   32	            total += c+1;
+   33	        }
+   34	        if (num < min)
+   35	        {   
+   36	            cout << "Minimum size is " << min << endl;
+   37	            return 0;
+   38	        }
+   39	        if (num > max)
+   40	        {
+   41	            cout << "Maximum size is " << max << endl;
+   42	            return 0;
+   43	        }
+   44	        
+   45	        for (int i = 0; i < num+1; i++)//Maximum number of dots per line
+   46	        {
+   47	            for (int j = num-i; j > 0; j--)
+   48	            {
+   49	                cout << " ";
+   50	            }
+   51	            for (int k = i; k > 0; k--)//Print each dot
+   52	            {   
+   53	                cout << "* ";
+   54	            }   
+   55	            cout << endl;
+   56	        }   
+   57	    
+   58	        cout << "Total dots: " << total << endl;
+   59	        cout << "========================================================\n";
+   60	        cout << "Do you want to continue? (Y|N)\n";
+   61	        cout << "========================================================\n";
+   62	        cin >> response;
+   63	        if (response != 'Y' &&  response != 'y')
+   64	        {
+   65	            cont = false;
+   66	            cout << "========================================================\n";
+   67	            cout << "Thank you for checking out the Triangle Drawing App!\n";
+   68	            cout << "========================================================\n";
+   69	        }
+   70	    } while (cont);
+   71	    
+   72	    return 0;
+   73	}
+$ a[Kc++ ola3.cpp
+$ a.out
+========================================================
+Welcome to the Equilateral Triangle Drawing App
+========================================================
+How large would you like your equilatteral triangle to be?
+1
+ 
+* 
+Total dots: 1
+========================================================
+Do you want to continue? (Y|N)
+========================================================
+y
+How large would you like your equilatteral triangle to be?
+4
+    
+   * 
+  * * 
+ * * * 
+* * * * 
+Total dots: 10
+========================================================
+Do you want to continue? (Y|N)
+========================================================
+y
+How large would you like your equilatteral triangle to be?
+-5
+Minimum size is 1
+$ a.out
+========================================================
+Welcome to the Equilateral Triangle Drawing App
+========================================================
+How large would you like your equilatteral triangle to be?
+9
+         
+        * 
+       * * 
+      * * * 
+     * * * * 
+    * * * * * 
+   * * * * * * 
+  * * * * * * * 
+ * * * * * * * * 
+* * * * * * * * * 
+Total dots: 45
+========================================================
+Do you want to continue? (Y|N)
+========================================================
+y
+How large would you like your equilatteral triangle to be?
+15
+               
+              * 
+             * * 
+            * * * 
+           * * * * 
+          * * * * * 
+         * * * * * * 
+        * * * * * * * 
+       * * * * * * * * 
+      * * * * * * * * * 
+     * * * * * * * * * * 
+    * * * * * * * * * * * 
+   * * * * * * * * * * * * 
+  * * * * * * * * * * * * * 
+ * * * * * * * * * * * * * * 
+* * * * * * * * * * * * * * * 
+Total dots: 120
+========================================================
+Do you want to continue? (Y|N)
+========================================================
+y
+How large would you like your equilatteral triangle to be?
+20
+                    
+                   * 
+                  * * 
+                 * * * 
+                * * * * 
+               * * * * * 
+              * * * * * * 
+             * * * * * * * 
+            * * * * * * * * 
+           * * * * * * * * * 
+          * * * * * * * * * * 
+         * * * * * * * * * * * 
+        * * * * * * * * * * * * 
+       * * * * * * * * * * * * * 
+      * * * * * * * * * * * * * * 
+     * * * * * * * * * * * * * * * 
+    * * * * * * * * * * * * * * * * 
+   * * * * * * * * * * * * * * * * * 
+  * * * * * * * * * * * * * * * * * * 
+ * * * * * * * * * * * * * * * * * * * 
+* * * * * * * * * * * * * * * * * * * * 
+Total dots: 210
+========================================================
+Do you want to continue? (Y|N)
+========================================================
+n
+========================================================
+Thank you for checking out the Triangle Drawing App!
+========================================================
+$ exit
+exit
+
+Script done on Fri 17 Sep 2021 04:05:36 PM CDT

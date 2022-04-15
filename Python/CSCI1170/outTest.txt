@@ -1,0 +1,6 @@
+user@example.com
+mt.kb.user@gmail.com
+user@example.com
+mt.kb.user@gmail.com
+user@example.com
+user@example.com

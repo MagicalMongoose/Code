@@ -1,0 +1,189 @@
+Script started on Tue 14 Sep 2021 11:53:22 AM CDT
+$ pr -n -t -e4 ola2.cpp
+    1	/*
+    2	Title: Breakfast Self Service System
+    3	Author: Drew Lickman
+    4	Professor: Dr. Yang
+    5	Class CSCI 2170 - 001
+    6	Due: Sep 17th, 2021 23:59 PM (Friday)
+    7	Description:
+    8	    User will select a food item from the menu and
+    9	    this program will calculate the total cost.
+   10	*/
+   11	
+   12	#include <iostream>
+   13	#include <string>
+   14	#include <iomanip>
+   15	using namespace std;
+   16	
+   17	//Function that returns the price of the food choice 
+   18	double getFoodPrice(int n)
+   19	    {
+   20	        switch (n)
+   21	        {
+   22	        case 1://"Egg McMuffin"
+   23	            return 2.99;
+   24	        case 2://"Sausage Buritto"
+   25	            return 4.99;
+   26	        case 3://"Fruit Yogurt Parfait"
+   27	            return 3.56;
+   28	        case 4://"Hash Brown"
+   29	            return 1.50;    
+   30	        default:
+   31	            return 0.00;
+   32	        }
+   33	
+   34	        return 0.00;
+   35	    }
+   36	
+   37	int main()
+   38	{
+   39	    //Set up variables
+   40	    int userChoice;
+   41	    int userQuantity;
+   42	    int menuSize = 4;
+   43	    const string menu[menuSize] =
+   44	    {
+   45	        "Egg McMuffin",
+   46	        "Sausage Buritto", 
+   47	        "Fruit Yogurt Parfait",
+   48	        "Hash Brown",
+   49	    };
+   50	
+   51	    cout << "=====================================\n";
+   52	    cout << "Welcome to MTSU's Breakfast Menu\n";
+   53	    cout << "=====================================\n";
+   54	
+   55	    cout << setprecision(2) << fixed;
+   56	    //I made 0 to be Quit so that if the menu is for example 30 items long, the user isn't told to quit by typing "31"
+   57	    cout << left << "0. Quit\n";
+   58	    for (int i = 0; i < menuSize; i++)
+   59	    {
+   60	        //Prints a loop that uses an array of strings for foodNames, and a switch case for foodPrice, to show data can be retrieved in both methods.
+   61	        cout << left << i+1 << ". " << setw(25) << menu[i] << setw(2) << right << "($" << getFoodPrice(i+1) << ")" << endl;
+   62	    }
+   63	    //Guide the user through the menu. They can only select one food type.
+   64	    cout << "Please select your choice:\n";
+   65	    cin >> userChoice;
+   66	    if (userChoice > 0 && userChoice < 5)
+   67	    {
+   68	        cout << "The unit price for " << menu[userChoice-1] << " is: $" << getFoodPrice(userChoice) << endl;
+   69	        cout << "Please enter the quantity:\n";
+   70	        cin >> userQuantity;
+   71	        cout << "=====================================\n";
+   72	        cout << "Your Order Information:\n";
+   73	        cout << "-------------------------------------\n";
+   74	        cout << menu[userChoice-1] << ": $" << getFoodPrice(userChoice) << " (Unit:" << userQuantity << ")\n";
+   75	        cout << "-------------------------------------\n";
+   76	        cout << "Total Price: $" << getFoodPrice(userChoice) * userQuantity << endl;
+   77	        cout << "=====================================\n";
+   78	    }
+   79	    else if (!(userChoice > 0 && userChoice < 5))
+   80	    {   cout << "=====================================\n";
+   81	        cout << "Invalid option.\nThank you!\n";
+   82	        cout << "=====================================\n";
+   83	    }
+   84	    return 0;
+   85	}
+$ c++ ola2.cpp
+[01m[Kola2.cpp:[m[K In function ‘[01m[Kint main()[m[K’:
+[01m[Kola2.cpp:43:31:[m[K [01;35m[Kwarning: [m[KISO C++ forbids variable length array ‘[01m[Kmenu[m[K’ [[01;35m[K-Wvla[m[K]
+     const string menu[menuSize[01;35m[K][m[K =
+                               [01;35m[K^[m[K
+$ a.out
+=====================================
+Welcome to MTSU's Breakfast Menu
+=====================================
+0. Quit
+1. Egg McMuffin             ($2.99)
+2. Sausage Buritto          ($4.99)
+3. Fruit Yogurt Parfait     ($3.56)
+4. Hash Brown               ($1.50)
+Please select your choice:
+2
+The unit price for Sausage Buritto is: $4.99
+Please enter the quantity:
+6
+=====================================
+Your Order Information:
+-------------------------------------
+Sausage Buritto: $4.99 (Unit:6)
+-------------------------------------
+Total Price: $29.94
+=====================================
+$ a.out
+=====================================
+Welcome to MTSU's Breakfast Menu
+=====================================
+0. Quit
+1. Egg McMuffin             ($2.99)
+2. Sausage Buritto          ($4.99)
+3. Fruit Yogurt Parfait     ($3.56)
+4. Hash Brown               ($1.50)
+Please select your choice:
+4
+The unit price for Hash Brown is: $1.50
+Please enter the quantity:
+7
+=====================================
+Your Order Information:
+-------------------------------------
+Hash Brown: $1.50 (Unit:7)
+-------------------------------------
+Total Price: $10.50
+=====================================
+$ a.out
+=====================================
+Welcome to MTSU's Breakfast Menu
+=====================================
+0. Quit
+1. Egg McMuffin             ($2.99)
+2. Sausage Buritto          ($4.99)
+3. Fruit Yogurt Parfait     ($3.56)
+4. Hash Brown               ($1.50)
+Please select your choice:
+3
+The unit price for Fruit Yogurt Parfait is: $3.56
+Please enter the quantity:
+0
+=====================================
+Your Order Information:
+-------------------------------------
+Fruit Yogurt Parfait: $3.56 (Unit:0)
+-------------------------------------
+Total Price: $0.00
+=====================================
+$ a.out
+=====================================
+Welcome to MTSU's Breakfast Menu
+=====================================
+0. Quit
+1. Egg McMuffin             ($2.99)
+2. Sausage Buritto          ($4.99)
+3. Fruit Yogurt Parfait     ($3.56)
+4. Hash Brown               ($1.50)
+Please select your choice:
+5
+=====================================
+Invalid option.
+Thank you!
+=====================================
+$ a.out
+=====================================
+Welcome to MTSU's Breakfast Menu
+=====================================
+0. Quit
+1. Egg McMuffin             ($2.99)
+2. Sausage Buritto          ($4.99)
+3. Fruit Yogurt Parfait     ($3.56)
+4. Hash Brown               ($1.50)
+Please select your choice:
+7
+=====================================
+Invalid option.
+Thank you!
+=====================================
+$ exit
+exit
+
+Script done on Tue 14 Sep 2021 11:54:40 AM CDT

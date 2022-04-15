@@ -1,0 +1,56 @@
+Script started on Wed 29 Sep 2021 12:56:03 PM CDT
+$ cat -n max[K[K[KlargestNum.cpp 
+     1	/*
+     2	Name: Drew Lickman c8055315
+     3	Course: 2170-001 Dr. Yang
+     4	CLA#: 1
+     5	Date: 9/29/21
+     6	Description: Input 3 numbers and output the greatest
+     7	*/
+     8	
+     9	#include <iostream>
+    10	using namespace std;
+    11	
+    12	int maxAmongThree(int a, int b, int c)
+    13	{
+    14		int max = a;
+    15		if (b > a)
+    16		{
+    17			max = b;
+    18			if (c > b)
+    19			{
+    20				max = c;
+    21			}
+    22		}
+    23		return max;
+    24	}
+    25	
+    26	int main()
+    27	{
+    28		int a, b, c;
+    29		cout << "Input your numbers, press enter after each input: " << endl;
+    30		cin >> a >> b >> c;
+    31		cout << "The largest number is " << maxAmongThree(a, b, c) << endl;
+    32	}
+$ a.out
+Input your numbers, press enter after each input: 
+124
+78
+56
+The largest number is 124
+$ a.out
+Input your numbers, press enter after each input: 
+24
+80
+516
+The largest number is 516
+$ a.out
+Input your numbers, press enter after each input: 
+20
+188
+93
+The largest number is 188
+$ exit
+exit
+
+Script done on Wed 29 Sep 2021 12:57:25 PM CDT

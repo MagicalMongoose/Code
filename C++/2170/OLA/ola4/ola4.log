@@ -1,0 +1,303 @@
+Script started on Wed 29 Sep 2021 03:51:17 PM CDT
+$ pr -n -t -e4 ola4.cpp
+    1	/*Please develop a Rock Paper Scissor game for two players.
+    2	Please complete this starter file according to the corresponding instructions.
+    3	Author: Drew Lickman
+    4	Date: 9/27/21
+    5	Professor: Dr. Yang
+    6	*/
+    7	
+    8	#include<iostream>
+    9	#include<cstdlib> // for rand() and srand() function
+   10	#include<ctime> // for time()
+   11	using namespace std;
+   12	
+   13	//Global Constant Variables
+   14	const int ROCK = 1;
+   15	const int PAPER = 2;
+   16	const int SCISSOR = 3;
+   17	const int PERSON_WIN = 1;
+   18	const int COMPUTER_WIN = 2;
+   19	const int DRAW = 0;
+   20	
+   21	//function prototypes
+   22	//(1)
+   23	void welcomeMenu();
+   24	//(2)
+   25	void printWord(int opt);
+   26	//(3)
+   27	int rockPaperScissor(int person, int computer);
+   28	//(4)
+   29	int getUserInput();
+   30	
+   31	//Main function
+   32	int main()
+   33	{
+   34	    srand(time(NULL)); //this is for rand number
+   35	
+   36	    //(1) declare an integer variable named userScore initialized with 0;
+   37	    int userScore = 0;
+   38	    //(2) declare an integer variable named computerScore initialied with 0;
+   39	    int computerScore = 0;
+   40	    //(3) Declare a character variable named response
+   41	    char response;
+   42	    //(4) Call the Welcome Menu Function
+   43	    welcomeMenu();
+   44	    do
+   45	    {
+   46	        //(5) Please declare an integer variable named userInput
+   47	        // and assign the value returned by calling the function getUserInput() to userInput;
+   48	        int userInput = getUserInput();
+   49	        //(6) declare an integer variable named computerInput
+   50	        // and assign a random number (1,2,3) generated using the rand() function to computerInput;
+   51	        int computerInput = rand()%3+1; 
+   52	              cout << "-----------------------------" << endl;
+   53	              cout << "    User chose: ";
+   54	        //(7) Please call function printWord to print user's chose with userInput as input
+   55	        printWord(userInput);
+   56	              cout << "Computer chose: ";
+   57	        //(8) Please call function printWord to print computer's chose with computerInput as input
+   58	        printWord(computerInput);
+   59	        //(9) Please declare an integer variable named result
+   60	        //and assign the returned value by calling function rockPaperScissor
+   61	        //The inputs for the function rockPaperScissor is: userInput and computerInput
+   62	        int result = rockPaperScissor(userInput, computerInput);
+   63	              if(result == DRAW) //(10) if the result is draw
+   64	           //(11) print out it is a draw
+   65	           cout << "It is a draw this round." << endl;
+   66	        else if(result == PERSON_WIN) //(12) if the result is person wins
+   67	        {
+   68	            //(13) Print out person wins this round.
+   69	            cout << "Player won this round!" << endl;
+   70	            //(14) update userScore by using increment operator
+   71	            userScore++;
+   72	        }
+   73	        else if(result == COMPUTER_WIN) // (15) if the result is computer wins
+   74	        {
+   75	            //(16) Print out computer wins this round.
+   76	            cout << "Computer won this round!" << endl;
+   77	            //(17) update computerScore by using increment operator
+   78	            computerScore++;
+   79	        }
+   80	
+   81	        cout << "-----------------------------" << endl;
+   82	        cout << "Total scores: " << endl;
+   83	        cout << "               User score: " << userScore << endl;
+   84	        cout << "           Computer score: " << computerScore << endl;
+   85	        cout << "-----------------------------" << endl;
+   86	
+   87	        cout << "If you want to continue please enter Y/y." << endl;
+   88	        cout << "Please enter N/n to terminate." << endl;
+   89	        //(18) user enter character from the keyboard.
+   90	        cin >> response;
+   91	    }while(response == 'Y' || response == 'y' );//(19) The program will terminate if the user enter 'N/n'
+   92	    //end of while
+   93	
+   94	    cout << "=========================================" << endl;
+   95	    cout << "Final Score: " << endl;
+   96	    cout << "               User score: " << userScore << endl;
+   97	    cout << "           Computer score: " << computerScore << endl << endl;
+   98	
+   99	    if(userScore == computerScore) //(20) if userScore is equal to computerScore
+  100	        //(21) print out the game is a draw
+  101	        cout << "The game is a draw!" << endl;
+  102	    else if(userScore > computerScore)//(22) if userScore is larger than computerScore
+  103	        //(23) print out user wins the game.
+  104	        cout << "The player wins the game!" << endl;
+  105	    else
+  106	        //(24)print out computer wins the game.
+  107	        cout << "The computer wins the game!" << endl;
+  108	
+  109	    cout << "Thank you!" << endl;
+  110	    cout << "=========================================" << endl;
+  111	    return 0;
+  112	}
+  113	
+  114	//Function Name: rockPaperScissor
+  115	//Purpose: Compare the rock paper scissor result with two players
+  116	//Input: person's option, and computer's option
+  117	//Output: PERSON_WIN or COMPUTER_WIN, or Draw
+  118	int rockPaperScissor(int person, int computer)
+  119	{
+  120	    //Please use ROCK, PAPER, SCISSOR here instead of 1, 2, 3
+  121	
+  122	    int result = 0;
+  123	
+  124	    if(person == ROCK && computer == PAPER)//(1) if person is ROCK and computer is PAPER
+  125	        //(2) computer wins
+  126	        result = COMPUTER_WIN;
+  127	    else if(person == ROCK && computer == SCISSOR)//(3) if person is ROCK and computer is SCISSOR
+  128	        //(4) person wins
+  129	        result = PERSON_WIN;
+  130	    else if(person == PAPER && computer == ROCK)//(5) if person is PAPER and computer is ROCK
+  131	        //(6) person wins
+  132	        result = PERSON_WIN;
+  133	    else if(person == PAPER && computer == SCISSOR)//(7) if person is PAPER and computer is SCISSOR
+  134	        // (8) computer wins;
+  135	        result = COMPUTER_WIN;
+  136	    else if(person == SCISSOR && computer == ROCK)//(9) if person is SCISSOR and computer is ROCK
+  137	        //(10) computer wins
+  138	        result = COMPUTER_WIN;
+  139	    else if(person == SCISSOR && computer == PAPER)//(11) if person is SCISSOR and computer is PAPER
+  140	       //(12) person wins
+  141	        result = PERSON_WIN;
+  142	    else
+  143	       //(13) it is a draw
+  144	       result = DRAW;
+  145	
+  146	    return result;
+  147	}
+  148	
+  149	//Function Name: getUserInput
+  150	//Purpose: ask the user to enter the options from the keyboard
+  151	//Input: empty
+  152	//Output: user's options: 1 or 2 or 3
+  153	int getUserInput()
+  154	{
+  155	    int choice;
+  156	    do{
+  157	            cout << "1. Rock " << endl;
+  158	            cout << "2. Paper " << endl;
+  159	            cout << "3. Scissor " << endl;
+  160	            //(1) prompt the user to enter options 1, or 2 or 3
+  161	            cout << "Enter your choice: ";
+  162	            //(2) user enter a number to choice
+  163	            cin >> choice;
+  164	    }while(choice != 1 && choice != 2 && choice != 3);//(4) the while loop continue if the user did not enter 1 or 2 or 3
+  165	
+  166	    return choice;
+  167	}
+  168	
+  169	//Function Name: printWord
+  170	//Purpose: print out Rock Paper Scissor based on the number option
+  171	//Input: option number 1 or 2 or 3
+  172	//Output: Rock or Paper or Scissor
+  173	void printWord(int opt)
+  174	{
+  175	    //(1) if opt is 1
+  176	    //(2) print out Rock
+  177	    if (opt == 1)
+  178	    { cout << "Rock" << endl; }
+  179	    //(3) else if opt is 2
+  180	    //(4) print out Paper
+  181	    if (opt == 2)
+  182	    { cout << "Paper" << endl; }
+  183	    //(5) else print out Scissor
+  184	    else 
+  185	    { cout << "Scissor" << endl; }
+  186	}
+  187	
+  188	//Function Name: welcomeMenu
+  189	//Purpose: prompt the program welcome message
+  190	//Input: empty
+  191	//Output: void
+  192	void welcomeMenu()
+  193	{
+  194	    cout << "==========================" << endl;
+  195	    cout << "Welcome to Rock Paper Scissors" << endl;
+  196	    cout << "==========================" << endl; 
+  197	}
+  198	
+$ c++ ola4.cpp
+$ a.out
+==========================
+Welcome to Rock Paper Scissors
+==========================
+1. Rock 
+2. Paper 
+3. Scissor 
+Enter your choice: 1
+-----------------------------
+    User chose: Rock
+Scissor
+Computer chose: Paper
+Computer won this round!
+-----------------------------
+Total scores: 
+               User score: 0
+           Computer score: 1
+-----------------------------
+If you want to continue please enter Y/y.
+Please enter N/n to terminate.
+y
+1. Rock 
+2. Paper 
+3. Scissor 
+Enter your choice: 3
+-----------------------------
+    User chose: Scissor
+Computer chose: Rock
+Scissor
+Computer won this round!
+-----------------------------
+Total scores: 
+               User score: 0
+           Computer score: 2
+-----------------------------
+If you want to continue please enter Y/y.
+Please enter N/n to terminate.
+y
+1. Rock 
+2. Paper 
+3. Scissor 
+Enter your choice: 2
+-----------------------------
+    User chose: Paper
+Computer chose: Paper
+It is a draw this round.
+-----------------------------
+Total scores: 
+               User score: 0
+           Computer score: 2
+-----------------------------
+If you want to continue please enter Y/y.
+Please enter N/n to terminate.
+y
+1. Rock 
+2. Paper 
+3. Scissor 
+Enter your choice: 4
+1. Rock 
+2. Paper 
+3. Scissor 
+Enter your choice: 2
+-----------------------------
+    User chose: Paper
+Computer chose: Paper
+It is a draw this round.
+-----------------------------
+Total scores: 
+               User score: 0
+           Computer score: 2
+-----------------------------
+If you want to continue please enter Y/y.
+Please enter N/n to terminate.
+y
+1. Rock 
+2. Paper 
+3. Scissor 
+Enter your choice: 3
+-----------------------------
+    User chose: Scissor
+Computer chose: Paper
+Player won this round!
+-----------------------------
+Total scores: 
+               User score: 1
+           Computer score: 2
+-----------------------------
+If you want to continue please enter Y/y.
+Please enter N/n to terminate.
+n
+=========================================
+Final Score: 
+               User score: 1
+           Computer score: 2
+
+The computer wins the game!
+Thank you!
+=========================================
+$ exit
+exit
+
+Script done on Wed 29 Sep 2021 03:51:54 PM CDT

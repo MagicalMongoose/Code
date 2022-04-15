@@ -1,0 +1,16 @@
+## compiler
+CXX = g++ -std=c++11
+CXXFLAGS = -pedantic -g
+TARGET = example
+
+mainALL: main.o $(TARGET).o
+	$(CXX) $(CXXFLAGS) main.o $(TARGET).o -o mainALL
+
+main.o: main.cpp $(TARGET).h
+	$(CXX) $(CXXFLAGS) -c main.cpp
+
+$(TARGET).o: $(TARGET).cpp $(TARGET).h
+	$(CXX) $(CXXFLAGS) -c $(TARGET).cpp
+
+clean:
+	$(RM) mainALL *.o

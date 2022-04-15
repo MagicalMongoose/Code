@@ -1,0 +1,220 @@
+Script started on Tue 26 Oct 2021 07:08:29 PM CDT
+$ pr-n-t-[K[K[K[K[K -n -t -e4 ola5.cpp
+    1	//*************************** Open Lab Assignment #5***************************
+    2	// FILE: ola5.cpp
+    3	// AUTHOR: Written by Drew Lickman.
+    4	// INSTRUCTOR: Dr. Xin Yang
+    5	// COURSE: CSCI 2170
+    6	// DUE DATE: Oct 25th, 2021
+    7	// DESCRIPTION: This program will take a products.dat file and output visualized tables of the ingredients and products.
+    8	// INPUT: File that includes an array size, the 2d array, and prices on the right side of the array
+    9	// OUTPUT: Visualized table showing the amounts of ingredients for each product, and the prices. 
+   10	//****************************************************************************
+   11	
+   12	#include<iostream>
+   13	#include<string>
+   14	#include<fstream>
+   15	#include<iomanip>
+   16	using namespace std;
+   17	
+   18	//Global CONSTANTS
+   19	const string FOOD_NAMES[] = {"Donut", "Bagel", "White Bread", "Kaiser Roll", "King Cake", "Apple Pie", "Cherry Wafer"};
+   20	const int MAX_INGREDIENTS = 30;
+   21	const int MAX_PRODUCTS = 24;
+   22	
+   23	//Defining functions above main() because I don't like function prototypes
+   24	//function to open data file
+   25	void openFile(ifstream &inFile)
+   26	{
+   27	    /*
+   28	    Purpose: Read an input file name interactively and open the file.
+   29	        If file does not exist, print error message, and keep asking
+   30	        the user to enter another file name.
+   31	    Parameters: Input file stream call by reference
+   32	    Pre-condition: Input file stream has been filled.
+   33	    Post-condition: Display File open successfully or File Open Error
+   34	    */
+   35	
+   36	    string fileName;
+   37	    do 
+   38	    {
+   39	        cout << "Enter the data file\n";
+   40	        cin >> fileName;
+   41	        inFile.open(fileName);
+   42	        if (!inFile)
+   43	        {
+   44	            cout << fileName << " not found! Please try again.\n\n";
+   45	        }
+   46	    }
+   47	    while (!inFile);
+   48	    cout << "Opened " << fileName << " successfully\n\n";
+   49	}
+   50	
+   51	//function to read products info from file
+   52	void readFile(ifstream &inFile, int& products, int& ingredients, double ingPrice[], int amounts[][MAX_PRODUCTS]) //Need to grab the 2d array 
+   53	{
+   54	    /*
+   55	    Purpose: Read the products.dat file and output a table
+   56	    Parameters: Reference variables for the file, products, ingredients, and array variables for ingredient prices and ingredient amounts.
+   57	    Pre-condition: The first two integers of products.dat will be read seperately as to save the table's x and y size.
+   58	    Post-Condition: Display the table where the ingredients are the rows and products are the columns.
+   59	    */
+   60	    //Read the table's x and y size in the file
+   61	    inFile >> ingredients >> products; 
+   62	
+   63	    cout << "*****************************************************************************\n";
+   64	    cout << setw(12) << left << "Product";
+   65	    for (int h = 0; h < products; h++)
+   66	    {
+   67	        cout << setw(14) << FOOD_NAMES[h];
+   68	    }
+   69	    cout << "Ingredient Price\n";
+   70	    cout << "-----------------------------------------------------------------------------\n";
+   71	    for (int i = 0; i < ingredients; i++)
+   72	    {
+   73	        cout << "Ingredient" << i+1 << " ";
+   74	        for (int j = 0; j < products; j++)
+   75	        {   
+   76	            //Print ingredient amount
+   77	            inFile >> amounts[i][j];
+   78	            cout << fixed << setw(14) << left << amounts[i][j];
+   79	        }
+   80	        inFile >> ingPrice[i];
+   81	        //Print Ingredient Price
+   82	        cout << "$" << setprecision(2) << ingPrice[i] << endl;
+   83	    }
+   84	    cout << endl;
+   85	        
+   86	}
+   87	//function to calc product price
+   88	void calcProductPrices(int& products, int& ingredients, double ingPrice[], double prdctPrice[], int amounts[][MAX_PRODUCTS])
+   89	{
+   90	    /*
+   91	    Purpose: Calculate the sum of each product's ingredients, and save to prdctPrice[]. 
+   92	    Parameters: Reference variables for products, ingredients, and array variables for ingredient prices, product prices, and ingredient amounts.
+   93	    Pre-condition: The amounts[][] array must have been filled out before proper math can be accomplished.
+   94	    Post-Condition: The prdctPrice[] array will be filled with the sum of each product's ingredients. 
+   95	    */
+   96	    double sum;
+   97	    for (int i = 0; i < products; i++)
+   98	    {
+   99	        sum = 0;
+  100	        for (int j = 0; j < ingredients; j++)
+  101	        {
+  102	            sum += (amounts[j][i]*ingPrice[j]);
+  103	        }
+  104	        prdctPrice[i] = sum;
+  105	    }
+  106	}
+  107	//function to display cost of products table
+  108	void displayProductTable(int& products, int& ingredients, double prdctPrice[], int amounts[][MAX_PRODUCTS])
+  109	{
+  110	    /*
+  111	    Purpose: Take the ingredient amounts and flip the table's axis so that the products are the rows and the ingredients are the columns,
+  112	        so that the product prices can be displayed on the right side.
+  113	    Parameters: Reference variables for products, ingredients, and array variables for product prices, and ingredient amounts. 
+  114	    Pre-condition: amounts[][] array must be filled.
+  115	    Post-Condition: Displays the table where the products are the rows and the ingredients are the columns. 
+  116	    */
+  117	    cout << "*****************************************************************************\n";
+  118	    cout << setw(16) << left << "Product";
+  119	    for (int h = 0; h < ingredients; h++)
+  120	    {
+  121	        cout << "Ing" << h+1 << "            ";
+  122	    }
+  123	    cout << "Product Price\n";
+  124	    cout << "-----------------------------------------------------------------------------\n";
+  125	    for (int i = 0; i < products; i++)
+  126	    {
+  127	        cout << i+1 << " ";
+  128	        cout << setw(14) << FOOD_NAMES[i];
+  129	        for (int j = 0; j < ingredients; j++)
+  130	        {
+  131	            //Print ingredient amount
+  132	            cout << fixed << setw(16) << left << amounts[j][i];
+  133	        }
+  134	        //Print Product Price
+  135	        cout << "$" << fixed << setw(7) << setprecision(2) <<  prdctPrice[i] << endl;
+  136	    }
+  137	    cout << endl;
+  138	
+  139	}
+  140	//function to find most expensive product
+  141	double mostExpensive(int& products, double prdctPrice[])
+  142	{
+  143	    /*
+  144	    Purpose: Calculate which product is the most expensive
+  145	    Parameters: Reference variable for products, and array variable for product prices.
+  146	    Pre-condition: The product prices array must be filled.
+  147	    Post-Condition: Return the number that references the global array of FOOD_NAMES[] for the product with the highest price. 
+  148	    */
+  149	    double max = prdctPrice[0];
+  150	    int temp = 0;
+  151	    for (int i = 1; i < products; i++)
+  152	    {
+  153	        if (prdctPrice[i] > max)
+  154	        {
+  155	            max = prdctPrice[i];
+  156	            temp = i;
+  157	        }
+  158	    }
+  159	    return temp;
+  160	}
+  161	
+  162	int main()
+  163	{
+  164	    ifstream inFile;
+  165	    int products;
+  166	    int ingredients;
+  167	    int amounts[MAX_INGREDIENTS][MAX_PRODUCTS];
+  168	    double ingPrice[MAX_INGREDIENTS];
+  169	    double prdctPrice[MAX_PRODUCTS];
+  170	    openFile(inFile);
+  171	    readFile(inFile, products, ingredients, ingPrice, amounts);
+  172	    calcProductPrices(products, ingredients, ingPrice, prdctPrice, amounts);
+  173	    displayProductTable(products, ingredients, prdctPrice, amounts);
+  174	    int expensiveFood = mostExpensive(products, prdctPrice);
+  175	    cout << "Product " << expensiveFood+1 << ": " << FOOD_NAMES[expensiveFood] << " is the most expensive product." <<  endl;
+  176	    inFile.close();
+  177	    return 0;
+  178	    }
+$ c++ ola5.cpp
+$ a.out
+Enter the data file
+products
+products not found! Please try again.
+
+Enter the data file
+products.txt
+products.txt not found! Please try again.
+
+Enter the data file
+products.dat
+Opened products.dat successfully
+
+*****************************************************************************
+Product     Donut         Bagel         White Bread   Kaiser Roll   King Cake     Apple Pie     Cherry Wafer  Ingredient Price
+-----------------------------------------------------------------------------
+Ingredient1 10            10            11            11            5             8             12            $5.14
+Ingredient2 20            5             6             6             50            15            27            $10.25
+Ingredient3 50            10            12            12            40            30            25            $8.50
+Ingredient4 25            25            30            30            90            40            10            $1.50
+Ingredient5 0             0             0             0             0             20            0             $20.00
+Ingredient6 0             0             0             0             1             0             15            $72.25
+
+*****************************************************************************
+Product         Ing1            Ing2            Ing3            Ing4            Ing5            Ing6            Product Price
+-----------------------------------------------------------------------------
+1 Donut         10              20              50              25              0               0               $718.90 
+2 Bagel         10              5               10              25              0               0               $225.15 
+3 White Bread   11              6               12              30              0               0               $265.04 
+4 Kaiser Roll   11              6               12              30              0               0               $265.04 
+5 King Cake     5               50              40              90              0               1               $1085.45
+6 Apple Pie     8               15              30              40              20              0               $909.87 
+7 Cherry Wafer  12              27              25              10              0               15              $1649.68
+
+Product 7: Cherry Wafer is the most expensive product.
+$ exit
+exit
+
+Script done on Tue 26 Oct 2021 07:08:59 PM CDT

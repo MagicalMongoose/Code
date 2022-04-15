@@ -1,0 +1,302 @@
+Script started on Wed 27 Oct 2021 04:01:21 PM CDT
+$ pr -n -t -e4 storeClassa.h storeClassa.cc inlab7a.cc
+    1	//File: storeClassa.h
+    2	//
+    3	//This is the specification file for a store class.
+    4	//Each store contains data members that contain 
+    5	//information about chairs and tables sold by the store
+    6	//as well as the name of the store.
+    7	
+    8	#include <string>
+    9	using namespace std;
+   10	
+   11	//prevent multiple inclusions
+   12	#ifndef STORE_CLASS_H
+   13	#define STORE_CLASS_H
+   14	
+   15	class StoreClass
+   16	{
+   17	public:
+   18	    //You must declare the default constructor for the StoreClass.
+   19	    // Constructor declaration goes here.
+   20	    StoreClass()
+   21	    {
+   22	        totalTables = 0;
+   23	        totalChairs = 0;
+   24	        storeName = "";
+   25	    };
+   26	
+   27	    //Read the data for a store from a file.  The name of the 
+   28	    //file is passed as an argument to this method
+   29	    void readFile (string filename);
+   30	
+   31	    //print information about the store
+   32	    void PrintStore();
+   33	
+   34	private:
+   35	    //define a struct for a Chair type
+   36	    struct Chair
+   37	    {
+   38	        string designer;   //chair designer's name
+   39	        bool cushion;      //does it have a cushion
+   40	        string material;   //type of material used in the chair
+   41	        string color;      //color of the chair
+   42	        int qty;           //quantity of this chair
+   43	    };
+   44	
+   45	    //define a struct for a Table type
+   46	    struct Table
+   47	    {
+   48	        string designer;   //table designer's name
+   49	        bool glass;        //does the chair have glass
+   50	        string material;   //type of material used in the table
+   51	        string color;      //table's color
+   52	        int qty;           //quantity of this table
+   53	    };
+   54	
+   55	    //data members in the store
+   56	    Chair chairArray[100];  //the store contains many chairs
+   57	    Table tableArray[100];  //and many tables
+   58	    int totalTables;        //number of tables
+   59	    int totalChairs;        //number of chairs
+   60	    string storeName;       //name of the store
+   61	};
+   62	
+   63	#endif
+    1	//File: storeClassa.h
+    2	//
+    3	//This is the implementation file for a store class.
+    4	//Each store contains data members that contain 
+    5	//information about chairs and tables sold by the store
+    6	//as well as the name of the store.
+    7	
+    8	#include "storeClassa.h"
+    9	#include <iostream>
+   10	#include <fstream>
+   11	#include <string>
+   12	#include <cstdlib>
+   13	using namespace std;
+   14	
+   15	//This is the implementation of the default constructor.
+   16	//The default constructor sets the name of the store
+   17	//to a default name and sets the number of tables &
+   18	//chairs to 0.
+   19	
+   20	/*
+   21	StoreClass :: StoreClass()
+   22	{
+   23	    storeName = "General Store";
+   24	    totalChairs = 0;
+   25	    totalTables = 0;
+   26	}
+   27	*/
+   28	
+   29	
+   30	//This method receives the name of the file containig
+   31	//store data.  It reads all data about the store.
+   32	//The data file contains the name of the store followed
+   33	//by information about chairs and tables. If a chair's 
+   34	//information appears in the file, it is preceeded by
+   35	//the string "Chair".  If a table's information appears
+   36	//in the file, it is preceeded by the string "Table".
+   37	void StoreClass::readFile(string filename)
+   38	{
+   39	    string input;                 //input a string from the file
+   40	    ifstream myFile;              //input file stream
+   41	    totalChairs = 0;              //set the chair counter to 0
+   42	    totalTables = 0;              //set the table counter to 0
+   43	
+   44	    //open the data file & check to make sure it opened
+   45	    myFile.open(filename.c_str());
+   46	    if (!myFile)
+   47	    {
+   48	        cerr << "Data file failed to open!\n";
+   49	        exit (0);
+   50	    }
+   51	
+   52	    //read the store's name
+   53	    myFile >> input;
+   54	
+   55	    //check for an empty file
+   56	    if(input!="")
+   57	    {
+   58	        //set the store's name
+   59	        storeName = input;
+   60	
+   61	        //read in chairs & tables until end-of-file
+   62	        //read the type of the next item
+   63	        myFile >> input;
+   64	        while(myFile)
+   65	        {
+   66	
+   67	
+   68	            //the next item is a chair
+   69	            if(input == "Chair")
+   70	            {
+   71	                //create a Chair object and fill it with data
+   72	                Chair chair1;            
+   73	                myFile >> chair1.designer;
+   74	                myFile >> chair1.color;
+   75	                myFile >> chair1.material;
+   76	                
+   77	                //read a string to indicate whether the chair
+   78	                //has a cushion or not
+   79	                myFile >> input;
+   80	                if(input == "true")
+   81	                {
+   82	                    chair1.cushion = true;
+   83	                }
+   84	                else
+   85	                    chair1.cushion = false;
+   86	                myFile >> chair1.qty;
+   87	                
+   88	                //place the chair into the array of chairs
+   89	                chairArray[totalChairs] = chair1;
+   90	                totalChairs +=1;
+   91	            }
+   92	            //the next item is a table
+   93	            else if(input == "Table")
+   94	            {
+   95	                //create a Table object and fill it with data
+   96	                Table table1;
+   97	                myFile >> table1.designer;
+   98	                myFile >> table1.color;
+   99	                myFile >> table1.material;
+  100	                
+  101	                //read a string to indicate whether the table
+  102	                //has glass or not
+  103	                myFile >> input;
+  104	                if(input == "true")
+  105	                {
+  106	                    table1.glass = true;
+  107	                }
+  108	                else
+  109	                    table1.glass = false;
+  110	                myFile >> table1.qty;
+  111	                
+  112	                //place the chair into the array of tables
+  113	                tableArray[totalTables] = table1;
+  114	                totalTables+=1;
+  115	            }
+  116	            //read the type of the next item
+  117	            myFile >> input;
+  118	
+  119	        }
+  120	    }
+  121	}
+  122	
+  123	
+  124	//This method prints all information about all tables
+  125	//and chairs in the store.
+  126	void StoreClass :: PrintStore()
+  127	{
+  128	    //print all information about Chairs sold by
+  129	    //the store
+  130	    if (totalChairs > 0)
+  131	        cout << "Inventory of Chairs" << endl;
+  132	    else
+  133	        cout << "No chairs in Inventory" << endl;
+  134	    for(int i = 0; i < totalChairs; i++)
+  135	    {
+  136	        cout << chairArray[i].designer <<"\t";
+  137	        cout << chairArray[i].color << "\t";
+  138	        cout << chairArray[i].material << "\t";
+  139	        if(chairArray[i].cushion == true)
+  140	            cout << "Cushioned\t" <<endl;
+  141	        else
+  142	            cout << "Not Cushioned\t" << endl;
+  143	        cout << "Qty in Stock: " << chairArray[i].qty << endl;
+  144	    }
+  145	
+  146	    //print all information about Tables sold by
+  147	    //the store
+  148	    if (totalTables > 0)
+  149	        cout << "\n\nInventory of Tables" << endl;
+  150	    else
+  151	        cout << "\n\nNo tables in Inventory" << endl;
+  152	    for(int i = 0; i < totalTables; i++)
+  153	    {
+  154	        cout << tableArray[i].designer <<"\t";
+  155	        cout << tableArray[i].color << "\t";
+  156	        cout << tableArray[i].material << "\t";
+  157	        if(tableArray[i].glass == true)
+  158	            cout << "Glass Top\t" <<endl;
+  159	        else
+  160	            cout << "No Glass Top\t" << endl;
+  161	        cout << "Qty in Stock: " << tableArray[i].qty << endl;
+  162	    }
+  163	
+  164	}
+    1	//File: inlab7a.cc
+    2	//
+    3	//This is a simple test program to test the 
+    4	//store class.
+    5	
+    6	#include "storeClassa.h"
+    7	
+    8	
+    9	int main()
+   10	{
+   11	    //create an instance of the store class
+   12	    //add the declaration for store 1 using
+   13	    //the default constructor here
+   14	    StoreClass store1;
+   15	
+   16	    //read information about the store
+   17	    store1.readFile ("ex3_data.0");
+   18	
+   19	    //print all information about the store
+   20	    store1.PrintStore();
+   21	    
+   22	
+   23	
+   24	
+   25	    StoreClass store2, store3;
+   26	
+   27	    store2.readFile ("ex3_data.1");
+   28	    store2.PrintStore();
+   29	    
+   30	    store3.readFile ("ex3_data.2");
+   31	    store3.PrintStore();
+   32	    return 0;
+   33	}
+$ c++ storeClassa.cc inlab7a.cc
+$ a.oiu[K[Kut
+Inventory of Chairs
+Broy-Hill	Red	Leather	Cushioned	
+Qty in Stock: 15
+La-Z-Boy	Black	Microfiber	Not Cushioned	
+Qty in Stock: 4
+
+
+Inventory of Tables
+Rooms-To-Go	Brown	Wood	No Glass Top	
+Qty in Stock: 13
+Haverty's	Black	Metal	Glass Top	
+Qty in Stock: 9
+Inventory of Chairs
+Broy-Hill	Red	Leather	Cushioned	
+Qty in Stock: 15
+Rooms-To-Go	Purple	Denim	Cushioned	
+Qty in Stock: 25
+La-Z-Boy	Black	Microfiber	Not Cushioned	
+Qty in Stock: 4
+MTSU_Furniture	Purple	Leather	Cushioned	
+Qty in Stock: 30
+
+
+Inventory of Tables
+Rooms-To-Go	Brown	Wood	No Glass Top	
+Qty in Stock: 13
+Haverty's	Black	Metal	Glass Top	
+Qty in Stock: 7
+Frank's_Furniture	Brown	Metal	No Glass Top	
+Qty in Stock: 2
+No chairs in Inventory
+
+
+No tables in Inventory
+$ exit
+exit
+
+Script done on Wed 27 Oct 2021 04:01:52 PM CDT

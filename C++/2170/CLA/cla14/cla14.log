@@ -1,0 +1,89 @@
+Script started on Mon 25 Oct 2021 04:02:07 PM CDT
+$ pr -n -t -e4 date.h date.cpp date_main.cpp makefile
+    1	#ifndef DATE_H
+    2	#define DATE_H
+    3	
+    4	#include <iostream>
+    5	using namespace std;
+    6	
+    7	class Date
+    8	{
+    9	    private:
+   10	        int month;
+   11	        int day;
+   12	        int year;
+   13	
+   14	    public:
+   15	        void setDate(int m, int d, int y)
+   16	        {
+   17	            month = m;
+   18	            day = d;
+   19	            year = y;
+   20	        };
+   21	        void displayDate()
+   22	        {
+   23	            cout << month << "/" << day << "/" << year;
+   24	        }; 
+   25	};
+   26	#endif
+    1	#include <iostream>     //contains cin & cout
+    2	#include "date.h"      //contains the definition of the Clock class
+    3	using namespace std;
+    4	//methods are defined in date.h because the compiler was saying there were conflicting definition errors 
+    1	#include <iostream>
+    2	#include "date.h"
+    3	using namespace std;
+    4	
+    5	int main()
+    6	{
+    7	    //Declare two Date objects
+    8	    Date myDate, newDate;
+    9	    
+   10	    //Set the time of myDate to 11/30/2001.
+   11	    myDate.setDate(11, 30, 2001);
+   12	
+   13	    //Set the time of the newDate object to 5/31/2024.
+   14	    newDate.setDate (5, 31, 2024);
+   15	
+   16	    //Display birthdate
+   17	    cout << "My birthday is: ";
+   18	    myDate.displayDate();
+   19	    cout << endl;
+   20	
+   21	    cout << "My graduation date is: ";
+   22	    newDate.displayDate();
+   23	    cout << endl;
+   24	
+   25	    return 0;
+   26	}
+    1	## compiler
+    2	CXX = g++ -std=c++11
+    3	CXXFLAGS = -pedantic -g
+    4	Target = date
+    5	To = $(Target).o
+    6	Th = $(Target).h
+    7	Tcpp = $(Target).cpp
+    8	
+    9	mainALL: $(Target)_main.o $(To)
+   10	    $(CXX) $(CXXFLAGS) $(Target)_main.o $(To) -o mainALL
+   11	
+   12	$(To): $(Tcpp) $(Th)
+   13	    $(CXX) $(CXXFLAGS) -c $(Tcpp)
+   14	
+   15	$(Target)_main.o: $(Target)_main.cpp $(Th)
+   16	    $(CXX) $(CXXFLAGS) -c $(Target)_main.cpp
+   17	clean:
+   18	    $(RM) mainALL *.o
+$ make clear[Kn
+rm -f mainALL *.o
+$ make
+g++ -std=c++11 -pedantic -g -c date_main.cpp
+g++ -std=c++11 -pedantic -g -c date.cpp
+g++ -std=c++11 -pedantic -g date_main.o date.o -o mainALL
+$ mainALL
+My birthday is: 11/30/2001
+My graduation date is: 5/31/2024
+$ exit
+exit
+
+Script done on Mon 25 Oct 2021 04:03:24 PM CDT

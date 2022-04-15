@@ -1,0 +1,9 @@
+validEmailAddress@email.com
+Not!Valid!username2@email.com
+username3@not_valid_domain.com
+username4@valid.domain.com
+not@valid@username5@email.com
+username6@.not.valid.domain.com
+username7@.not.valid.domain.com.
+username8@not-valid-domain..com.
+username9@valid.domain.com.

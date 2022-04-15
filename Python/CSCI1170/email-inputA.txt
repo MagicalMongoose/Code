@@ -1,0 +1,149 @@
+From mikkiflower@gmail.com  Fri Feb 23 10:14:58 2007
+Return-Path: <mikkiflower@gmail.com>
+X-Spam-Checker-Version: SpamAssassin 3.1.3 (2006-06-01) on weyuker.cs.mtsu.edu
+X-Spam-Level:
+X-Spam-Status: No, score=-2.6 required=8.0 tests=AWL,BAYES_00,HTML_MESSAGE,
+        UNPARSEABLE_RELAY autolearn=ham version=3.1.3
+DKIM-Signature: a=rsa-sha1; c=relaxed/relaxed;       d=gmail.com; s=beta;
+            h=domainkey-signature:received:received:message-id:date:from:sender:to:
+        subject:mime-version:content-type:x-google-sender-auth;
+        b=odld5RU3NnJDqdYAA/dMy1i/RYiQZBsE6jgdhM/ZYK6uMWSKlU8npoQ+PI7TCEStprhnskUQi
+        EZn9QFzFXAuUpKp6bBkujL3IXFrVj4JBt0VMA04nDQzmtszClWvGPuKY6+mSWpW17ZdOKyxndTF
+        8gVff3ZtlHV2bs2jR3P0HcU=
+DomainKey-Signature: a=rsa-sha1; c=nofws;       d=gmail.com; s=beta;
+        h=received:message-id:date:from:sender:to:subject:mime-version:content-type
+        :x-google-sender-auth;
+        b=KLTnu7F+Fz1l7Wt6Tu2nrR+BSPUGkM0qjxhq3IBjK2R7V8QqlGYFzAtUn3jEezZjY/b7B9xyP
+        7wAiFepx4usu3hxb1w7aM3mXl6e8io4d98SeeYKpdacushO2+vXH3krNvVLXZalH3sHQ+6u6Pe7
+        qHItCoNoqwmAgbRQjLB9Jtw=
+Received: by 10.114.151.13 with SMTP id y13mr994359wad.1172247210524;
+        Fri, 23 Feb 2007 08:13:30 -0800 (PST)
+Received: by 10.115.91.13 with HTTP; Fri, 23 Feb 2007 08:13:29 -0800 (PST)
+Message-ID: <f72991ad0702230813u7ca6c4ebm9c708c6dbe3e8a30@mail.gmail.com>
+Date: Fri, 23 Feb 2007 11:13:29 -0500
+From: "Mikki Rose" <Mikki_Rose@siggraph.org>
+Sender: mikkiflower@gmail.com
+To: info@academart.edu, alvarolanchart@apanimationschool.com, dst@asu.edu,
+        mthomas@aracademy.edu, sberkan@artcenter.edu, lcoper@artcenter.edu,
+        cbar@artcenter.edu, rclayon@artcenter.edu, azerad@artcenter.edu,
+        aicafadm@aii.edu, thome@saic.edu, Deiseberg@saic.edu,
+        sfare@saic.edu, ne11@fac.aii.edu, jeses@aii.edu, grifitc@aii.edu,
+        aippres@aii.edu, chapelm@aii.edu, nmclarence@aii.edu, sye@aii.edu,
+        dheap@aii.edu, wwake@aii.edu, hestman@aii.edu, dma81@fac.aii.edu,
+        crohd@aii.edu, shughes@aii.edu, aiadm@aii.edu,
+        oliver.biber@medien.uni-weimar.de, sclarof@cs.bu.edu,
+        bilmark@cs.utexas.edu, pflower@uarts.edu, zeml@cs.toronto.edu,
+        frank.hanish@wsi-gris.uni-tuebingen.de, ansen@cs.utah.edu,
+        mrj3@ber.ac.uk, sales@cs.washington.edu, curles@cs.washington.edu,
+        weghor@u.washington.edu, counselling@uwo.ca, smith@uwsp.edu,
+        schoolse@uvsc.edu, al@mcap.ca, inf@vanarts.com, art@vcu.edu,
+        jhseip@vcu.edu, jgabard@vt.edu, nfo@sc.waseda.ac.jp,
+        gary.scid@washburn.edu, heroes@earthlink.net,
+        ksingh@mail.arch.wsu.edu, rish@wellesley.edu, por@wellesley.edu,
+        gorham@wvu.edu, geor@wilamette.edu, karuhr@wilamette.edu
+Subject: SIGGRAPH Student Volunteer Program
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+        boundary="----=_Part_50587_2428366.1172247209874"
+X-Google-Sender-Auth: ab6a342d6bb270da
+X-imss-version: 2.046
+X-imss-result: Passed
+X-imss-scanInfo: M:P L:E SM:0
+X-imss-tmaseResult: TT:0 TS:0.0000 TC:00 TRN:0 TV:3.6.1039(15014.003)
+X-imss-scores: Clean:65.29194 C:2 M:3 S:5 R:5
+X-imss-settings: Baseline:2 C:3 M:1 S:2 R:1 (0.1500 0.1500)
+X-Junkmail-Status: score=10/60, host=mtsu133.mtsu.edu
+X-Junkmail-SD-Raw: score=unknown,
+        refid=str=0001.0A090201.45DF12E3.0092,ss=1,fgs=0,
+        ip=64.233.184.233,
+        so=2006-09-22 03:48:54,
+        dmn=5.2.125/2007-01-26
+X-Mirapoint-Loop-Id: 9cbeee88de3916678a0b031e14d1f4c1
+Status: RO
+X-Status: A
+Content-Length: 1588711
+Lines: 20684
+
+------=_Part_50587_2428366.1172247209874
+Content-Type: multipart/alternative;
+        boundary="----=_Part_50588_11373562.1172247209874"
+
+------=_Part_50588_11373562.1172247209874
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+Dear Professor,
+
+
+
+Greetings yet again from the SIGGRAPH 2007
+<http://siggraph.org/s2007>Student Volunteers Committee! Our
+application deadline is only a few days
+away and we wanted to get one more reminder out to you and your students
+about the great opportunity SIGGRAPH offers students. If you would, please
+pass this information on to your students and fellow faculty to help us
+spread the word. There are many exciting things on the horizon for this
+year's Student Volunteers, and we invite your students to apply to join our
+team at sv.siggraph.org!
+
+
+
+A special interest group under the Association for Computing Machinery
+focused on computer graphics and interactive techniques, the SIGGRAPH team
+is preparing for the 34th annual conference in San Diego, CA August 5-9,
+2007. Student Volunteers are an integral part of the conference, providing
+needed assistance to conference attendees and participants in exchange for
+entrance to the conference and, in some cases, hotel accommodations and
+travel grants.
+
+
+Some of the benefits Student Volunteers may receive:
+
+   - Full conference access
+   - Travel and housing assistance possibilities
+   - Special sessions featuring industry professionals
+   - Career mentoring opportunities
+   - Resume and demo reel review opportunities
+   - Behind-the-scenes knowledge of conference happenings
+   - Networking opportunities with current and future industry leaders
+   - Advice from Student Volunteer Alumni
+
+Student Volunteers work either 30 or 18 hours throughout the conference
+week, engaging in a variety of tasks such as door and session monitoring,
+attendee registration, and exhibit demonstration in venues such as Emerging
+Technologies and the Guerrilla Studio.
+
+
+
+We welcome you to visit our website at sv.siggraph.org. The
+FAQs<http://www.siggraph.org/s2007/volunteers/students/faqs.html>and
+Qualifications<http://www.siggraph.org/s2007/volunteers/students/qualifications.html>pages
+offer additional information.  You may also contact us at
+sv2007@siggraph.org <MikkiRose@siggraph.org> if you or your students have
+any additional questions that are not found in the FAQs. The online
+application <http://www.siggraph.org/s2007/presenters/forms/index.html> will
+be open until the deadline at 11:59 pm PT, February 25, 2007.
+
+
+Attached are a few promotional items that we have made to help tell students
+about our program. Please feel free to forward this e-mail and use the
+attached materials if you would like. We hope that you will encourage your
+students to apply!
+
+
+Thank you for your time and support!
+
+
+
+Sincerely,
+
+Mikki Flower
+
+
+--
+Mikki Rose
+SIGGRAPH 2007
+Student Volunteers Program
+Communications Director
+Mikki_Flower@siggraph.org

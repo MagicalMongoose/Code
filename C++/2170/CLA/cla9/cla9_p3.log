@@ -1,0 +1,84 @@
+Script started on Wed 29 Sep 2021 04:59:15 PM CDT
+$ cat -n datap[KProcessing.cpp 
+     1	/*
+     2	Name: Drew Lickman c8055315
+     3	Course: CSCI 2170-001 Dr. Yang
+     4	Session#: 3
+     5	Date: 9/29/21
+     6	Description: Calculate average, lowest, and largest from a datafile
+     7	*/
+     8	
+     9	#include <iostream>
+    10	#include <fstream>
+    11	#include <string>
+    12	using namespace std;
+    13	
+    14	void dataProcessing(ifstream &inFile, double &average, double &lowest, double &highest)
+    15	{	
+    16		
+    17		int total = 0;
+    18		double num;
+    19		lowest = 100000;
+    20		highest = -100000;
+    21		while(!inFile.eof())
+    22		{
+    23		 	inFile >> num;
+    24			cout << num << endl;
+    25	
+    26			average += num;
+    27			total += 1;
+    28	
+    29			if (num > highest)
+    30			{
+    31				highest = num;
+    32			}
+    33			if (num < lowest)
+    34			{
+    35				lowest = num;
+    36			}
+    37		}
+    38		cout << "Average: " << average << " total: " << total << endl; //debug
+    39		average = average/total;
+    40		cout << "Got to end of data processing" << endl;
+    41	}
+    42	
+    43	int main()
+    44	{
+    45		ifstream inFile;
+    46		inFile.open("scores.txt");
+    47		double average;
+    48		double lowest;
+    49		double highest; 
+    50		dataProcessing(inFile, average, lowest, highest);
+    51		cout << "Average: " << average << endl;
+    52		cout << "Lowest: " << lowest << endl;
+    53		cout << "Highest: " << highest << endl;
+    54		return 0;
+    55	}
+    56	
+$ c++ dataProcessing.cpp -o -3[K[Kp3.out 
+$ p3.out 
+98.5
+67
+89
+85.6
+100
+76
+83
+68
+95
+92
+76
+93
+86
+75
+69
+Average: 1253.1 total: 15
+Got to end of data processing
+Average: 83.54
+Lowest: 67
+Highest: 100
+$ exit
+exit
+
+Script done on Wed 29 Sep 2021 04:59:34 PM CDT

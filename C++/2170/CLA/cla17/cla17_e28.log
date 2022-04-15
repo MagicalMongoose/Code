@@ -1,0 +1,109 @@
+Script started on Wed 10 Nov 2021 03:30:21 PM CST
+$ pr -t -n -e4 inlab8.cc
+    1	// inlab8.cc
+    2	//
+    3	// This is the implementation file for the ListClass object.  It contains the
+    4	// constructor and destructor
+    5	
+    6	#include "inlab8.h"
+    7	#include <iostream>
+    8	#include <fstream>
+    9	#include <cstdlib>
+   10	using namespace std;
+   11	
+   12	#include "structs.h"
+   13	
+   14	//This is the constructor for the ListClass object
+   15	ListClass::ListClass()
+   16	{
+   17	    head = NULL;
+   18	}//end of constructor
+   19	
+   20	//This is the destructor for the ListClass object
+   21	ListClass::~ListClass()
+   22	{
+   23	    NodePtrType q = head;
+   24	    while (q != NULL)
+   25	    {
+   26	        head = head->next;
+   27	        q->next = NULL;
+   28	        delete q;
+   29	        q=head;
+   30	    }
+   31	}//end of destructor
+   32	
+   33	//This is the function to print out records in the list
+   34	void ListClass::printList()
+   35	{
+   36	    //Place code here to check to see if the list is empty
+   37	    //if it is, print a message saying there are no items
+   38	    //in the list.
+   39	    Node* cur = head;
+   40	    if (head == NULL)
+   41	    {
+   42	        cout << "There are no items in the list" << endl;
+   43	    }
+   44	    
+   45	    //Place code here to check move from node to node, printing
+   46	    //the account number, a tab, then the balance on one line
+   47	    //with no labels.  For example
+   48	    //1114  395.67
+   49	    while (cur != NULL)
+   50	    {
+   51	        cout << cur->data.acctNum << "\t" << cur->data.balance << endl;
+   52	        cur = cur->next;
+   53	    }
+   54	
+   55	
+   56	
+   57	
+   58	}
+   59	// This function appends the record 'newData' onto the end of the linked list.
+   60	// If the list is empty, the new node is the new head of the list.
+   61	void ListClass::insertAtEnd(RecordType newData)
+   62	//      INOUT   IN
+   63	{
+   64	    NodePtrType newNode, prev;
+   65	
+   66	    // Create a new node to hold the record.
+   67	    newNode = new Node;
+   68	    newNode->data = newData;
+   69	    newNode->next = NULL;
+   70	
+   71	    if (head==NULL)
+   72	    {
+   73	        // The list is empty.  Make the new node the head of the list.
+   74	        head = newNode;
+   75	    }
+   76	    else
+   77	    {
+   78	        // The list is not empty, scan down to the end of the list and
+   79	        // put the new node there.
+   80	        prev = head;
+   81	        while (prev->next != NULL)
+   82	            prev = prev->next;
+   83	        prev->next = newNode;
+   84	    }
+   85	}//end of insertAtEnd function
+$ c++ main8a.cc inlab8.cc
+$ a.out < Ex28_data.0
+The initial list is:
+1112	450.5
+1113	530
+1111	34.95
+1010	80.45
+$ a.out < Ex28_data.0[K1
+The initial list is:
+There are no items in the list
+$ a.out < Ex28_data.1[K2
+The initial list is:
+1112	450.5
+$ a.out < Ex28_data.2[K3
+The initial list is:
+1112	450.5
+1113	530
+1111	34.95
+$ exit
+exit
+
+Script done on Wed 10 Nov 2021 03:30:58 PM CST

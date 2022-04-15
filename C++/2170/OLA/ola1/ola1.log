@@ -1,0 +1,121 @@
+Script started on Wed 01 Sep 2021 02:08:45 PM CDT
+$ pr -n -t -e4 ola1.cpp
+    1	/*
+    2	Title: Calculate dollar denomination types 
+    3	Author: Drew Licman
+    4	Professor: Dr. Yang
+    5	Class: CSCI 2170 - 001
+    6	Due: Sep 8th, 2021 23:59 PM (Wednesday)
+    7	Description: 
+    8	    Input a number, and the program will output 
+    9	    the fewest amount of dollars you can receive from an ATM
+   10	    spread through different denomination types, such as $100 bills, $50 bills, $20 bills etc. 
+   11	*/
+   12	#include<iostream>
+   13	#include<string>
+   14	using namespace std;
+   15	
+   16	int main()
+   17	{
+   18	    int num;
+   19	    //Welcome user to ATM
+   20	    cout << "========================\n";
+   21	    cout << "Welcome to MTSU ATM Cash Withdrawals!\n";
+   22	    cout << "========================\n";
+   23	    cout << "Please enter the amount of money to be withdrawn:\n";
+   24	    cin >> num;
+   25	    cout << endl;
+   26	    cout << "The ATM is going to give you:\n";
+   27	    cout << "-------------------------\n";
+   28	
+   29	    //Calculate the number of currency notes to print for each type of dollar denomination
+   30	    cout << (num / 100) << " currency notes of 100" << "$.\n";
+   31	    cout << (num % 100 / 50) << " currency notes of 50" << "$.\n";
+   32	    cout << (num % 100 % 50 / 20) << " currency notes of 20" << "$.\n";
+   33	    cout << (num % 100 % 50 % 20 / 10) << " currency notes of 10" << "$.\n";
+   34	    cout << (num % 100 % 50 % 20 % 10 / 5) << " currency notes of 5" << "$.\n";
+   35	    cout << (num % 100 % 50 % 20 % 10 % 5) << " currency notes of 1" << "$.\n";
+   36	    
+   37	    //Say goodbye to user
+   38	    cout << "========================\n";
+   39	    cout << "Thank you! See you next time!\n";
+   40	    cout << "========================\n";
+   41	    return 0;
+   42	}
+$ c++ ola1.cpp
+$ a.out
+========================
+Welcome to MTSU ATM Cash Withdrawals!
+========================
+Please enter the amount of money to be withdrawn:
+1500
+
+The ATM is going to give you:
+-------------------------
+15 currency notes of 100$.
+0 currency notes of 50$.
+0 currency notes of 20$.
+0 currency notes of 10$.
+0 currency notes of 5$.
+0 currency notes of 1$.
+========================
+Thank you! See you next time!
+========================
+$ a.out
+========================
+Welcome to MTSU ATM Cash Withdrawals!
+========================
+Please enter the amount of money to be withdrawn:
+1286
+
+The ATM is going to give you:
+-------------------------
+12 currency notes of 100$.
+1 currency notes of 50$.
+1 currency notes of 20$.
+1 currency notes of 10$.
+1 currency notes of 5$.
+1 currency notes of 1$.
+========================
+Thank you! See you next time!
+========================
+$ a.out
+========================
+Welcome to MTSU ATM Cash Withdrawals!
+========================
+Please enter the amount of money to be withdrawn:
+87
+
+The ATM is going to give you:
+-------------------------
+0 currency notes of 100$.
+1 currency notes of 50$.
+1 currency notes of 20$.
+1 currency notes of 10$.
+1 currency notes of 5$.
+2 currency notes of 1$.
+========================
+Thank you! See you next time!
+========================
+$ a.out
+========================
+Welcome to MTSU ATM Cash Withdrawals!
+========================
+Please enter the amount of money to be withdrawn:
+6
+
+The ATM is going to give you:
+-------------------------
+0 currency notes of 100$.
+0 currency notes of 50$.
+0 currency notes of 20$.
+0 currency notes of 10$.
+1 currency notes of 5$.
+1 currency notes of 1$.
+========================
+Thank you! See you next time!
+========================
+$ exit
+exit
+
+Script done on Wed 01 Sep 2021 02:09:38 PM CDT

@@ -1,0 +1,188 @@
+Script started on Wed 13 Oct 2021 02:19:46 PM CDT
+$ pr -n -t -e4 cla14a.cc
+    1	//File:        clab14a.cc
+    2	//Author:
+    3	//Purpose:     This program reads data for a computer science
+    4	//             closed lab section.
+    5	//Input:       Input for this program is from the external data
+    6	//             file labscores.dat.  The first two entries in the file
+    7	//             are the number of students in the class and the number
+    8	//             of closed labs the class has finished.
+    9	// 
+   10	//             For each student, their closed labs are input from the
+   11	//             following lines of the file.   
+   12	//
+   13	//Limitations: It is assumed that there will be no more than
+   14	//             MAX_STUDENTS students in the class and there will be
+   15	//             no more than MAX_LABS labs.
+   16	
+   17	//include files...
+   18	#include <iostream>
+   19	#include <fstream>
+   20	#include <iomanip>
+   21	using namespace std;
+   22	
+   23	//global constants...
+   24	const int MAX_STUDENTS=40;          //maximum number of students
+   25	const int MAX_LABS=14;              //maximum number of closed labs
+   26	
+   27	//function prototypes...
+   28	//function to read labs from the data file
+   29	void ReadScores(int labScores[][MAX_LABS], int& numStudents,
+   30	                int& numLabs, ifstream& myin);
+   31	
+   32	//your function prototypes should go here!!!
+   33	void printScores(int labScores[][MAX_LABS], int numStudents, int numLabs);
+   34	
+   35	void studentAvg(int labScores[][MAX_LABS], int numStudents, int numLabs);
+   36	
+   37	void labAvg(int labScores[][MAX_LABS], int numStudents, int numLabs);
+   38	
+   39	int main()
+   40	{
+   41	    //local declarations...
+   42	    int numStudents;                          //how many students are in the class
+   43	    int numLabs;                              //how many closed labs
+   44	    ifstream myin;                            //input file stream
+   45	    int labScores[MAX_STUDENTS][MAX_LABS];    //holds lab scores
+   46	
+   47	    myin.open ("labscores.dat");              //open the file for input
+   48	    if (!myin)
+   49	    {
+   50	        cout << "Could not open labscores.dat\n";
+   51	        return 1;
+   52	    }
+   53	
+   54	    //read in the data for all students in the class
+   55	    ReadScores(labScores, numStudents, numLabs, myin);
+   56	
+   57	    //print the data for all students in the class
+   58	    //your print function should be called here!!!!!
+   59	    printScores(labScores, numStudents, numLabs);
+   60	
+   61	    //find each student's lab average -- use the StudentAvg()
+   62	    //function here.
+   63	    studentAvg(labScores, numStudents, numLabs);
+   64	
+   65	    //find and print the average score made on each individual lab
+   66	    //use your LabAvg() function here
+   67	    labAvg(labScores, numStudents, numLabs);
+   68	
+   69	    //end of main...
+   70	    return 0;
+   71	}
+   72	
+   73	//Function:    ReadScores()
+   74	//Purpose:     This function reads data for students in a closed
+   75	//             lab class.  Data is read from the input file stream
+   76	//             myin.  The number of students in the lab and the
+   77	//             number of closed labs finished by each student are read
+   78	//             first.  Next, for each student, their closed labs
+   79	//             are read into the two-d array labscores.
+   80	//Assumption:  MAX_LABS is a global constant which has been defined
+   81	//             previously.
+   82	
+   83	void ReadScores(int labScores[][MAX_LABS],  //OUT: Holds the lab scores
+   84	                int& numStudents,           //OUT:  # of students
+   85	                int& numLabs,               //OUT: Number of Labs
+   86	                ifstream& myin)             //IN: Input file stream 
+   87	         
+   88	{
+   89	   //local declarations...
+   90	   int student;                            //controls which student's labs are read
+   91	   int lab;                                //controls which lab is being read
+   92	
+   93	   //get the number of students in the class
+   94	   myin >> numStudents >> numLabs;
+   95	
+   96	   //outer loop controls which student(row) is being read
+   97	   for (student = 0; student < numStudents; student++)
+   98	   {
+   99	      //inner loop controls which lab(column) is being read
+  100	      for (lab = 0; lab < numLabs; lab++)
+  101	         myin >> labScores[student][lab];
+  102	   }
+  103	   return;
+  104	}
+  105	
+  106	//Place the definition of your function to print the scores here
+  107	void printScores(int labScores[][MAX_LABS], int numStudents, int numLabs)
+  108	{
+  109	    for(int i = 0; i < numStudents; i++)
+  110	    {
+  111	        cout << "Student " << i+1 << ": ";
+  112	        for(int j = 0; j < numLabs; j++)
+  113	        {
+  114	            cout << fixed << setw(2) << labScores[i][j]  << " ";
+  115	        }
+  116	        cout << endl;
+  117	    }
+  118	}
+  119	
+  120	//Place the definition of the StudentAvg() function here
+  121	void studentAvg(int labScores[][MAX_LABS], int numStudents, int numLabs)
+  122	{
+  123	    int sum = 0;
+  124	    float avg = 0;
+  125	    for(int i = 0; i < numStudents; i++)
+  126	    {
+  127	        for(int j = 0; j < numLabs; j++)
+  128	        {
+  129	            sum += labScores[i][j];
+  130	        }   
+  131	        avg = (float)sum/numLabs;
+  132	        cout << "Student " << i+1  << " Average: " << fixed << setprecision(2) << avg << endl;
+  133	        //reset numbers for next student
+  134	        sum = 0;
+  135	        avg = 0;
+  136	    }
+  137	}
+  138	
+  139	//Place the definition of the LabAvg() function here
+  140	void labAvg(int labScores[][MAX_LABS], int numStudents, int numLabs)
+  141	{
+  142	    int sum = 0;
+  143	    float avg = 0;
+  144	    for(int i = 0; i < numLabs; i++)
+  145	    {
+  146	        for(int j = 0; j < numStudents; j++)
+  147	        {
+  148	            sum += labScores[j][i];
+  149	        }
+  150	        avg = (double)sum/numStudents;
+  151	        cout << "Lab " << i+1 << " Average: " << fixed << setprecision(2) << avg << endl;
+  152	        //reset numbers for next student
+  153	        sum = 0;
+  154	        avg = 0;
+  155	    }
+  156	}   
+$ c++ cla14a.cc 
+$ a.out
+Student 1: 10  9  7  8 10  9  9  9 10  8  8 10  9  9 
+Student 2:  8  8  8  9  4  8  9  7  8  3 10 10  7  9 
+Student 3:  6  6  0  5  7  9  4  7  8  5  7  1  5  9 
+Student 4:  8  8  8  7  7  7  9  9  9  9  8  9 10  8 
+Student 5:  9  9  9  9  9  9  9  9  9 10  9  9  9  9 
+Student 1 Average: 8.93
+Student 2 Average: 7.71
+Student 3 Average: 5.64
+Student 4 Average: 8.29
+Student 5 Average: 9.07
+Lab 1 Average: 8.20
+Lab 2 Average: 8.00
+Lab 3 Average: 6.40
+Lab 4 Average: 7.60
+Lab 5 Average: 7.40
+Lab 6 Average: 8.40
+Lab 7 Average: 8.00
+Lab 8 Average: 8.20
+Lab 9 Average: 8.80
+Lab 10 Average: 7.00
+Lab 11 Average: 8.40
+Lab 12 Average: 7.80
+Lab 13 Average: 8.00
+Lab 14 Average: 8.80
+$ exit
+exit
+
+Script done on Wed 13 Oct 2021 02:20:09 PM CDT

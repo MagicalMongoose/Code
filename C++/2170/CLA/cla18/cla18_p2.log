@@ -1,0 +1,112 @@
+Script started on Mon 22 Nov 2021 02:53:26 PM CST
+$ pr -t -n -e4 postfix.cpp
+    1	/*
+    2	(a) Your name and C-number (Drew Lickman--c8055315)
+    3	(b) course ID, section number and professor's name (CSCI 2170-001 Dr. Xin Yang)
+    4	(c) the closed lab session number (CLA18: Programming Exericse 2)
+    5	(d) Program Description: Stack Exercise
+    6	(e) the date of the lab (e.g: Nov 22nd, 2021)
+    7	*/
+    8	#include<iostream>
+    9	#include<stack> // stack container
+   10	#include<fstream> // file processing
+   11	#include<cctype> // isdigit()
+   12	#include<string>
+   13	using namespace std;
+   14	
+   15	bool isNum(string check)
+   16	{
+   17	    for(int i = 0; i < check.length(); i++)
+   18	    {
+   19	        if(!isdigit(check[i]))
+   20	        {
+   21	            return false;
+   22	        }
+   23	    }
+   24	    return true;
+   25	}
+   26	
+   27	void getNums(int &first, int &second, stack<int> &stk)
+   28	{
+   29	    second = stk.top();
+   30	    stk.pop();
+   31	    first = stk.top();
+   32	    stk.pop();
+   33	}
+   34	
+   35	int postfix(stack<int> &stk, string e)
+   36	{
+   37	    int solution = 0;
+   38	    int first, second;
+   39	    int temp;
+   40	    string check;
+   41	    int pos = e.find(" ");
+   42	    while(pos != string::npos)
+   43	    {
+   44	        check = e.substr(0, pos);
+   45	        if(isNum(check)) 
+   46	        {   
+   47	            stk.push(stoi(check));
+   48	        }
+   49	            else if(check == "+")
+   50	            {
+   51	                getNums(first, second, stk);
+   52	                stk.push(first + second);
+   53	            }   
+   54	            else if(check == "-")
+   55	            {
+   56	                getNums(first, second, stk);
+   57	                stk.push(first - second);
+   58	            }   
+   59	            else if(check == "*")
+   60	            {
+   61	                getNums(first, second, stk);
+   62	                stk.push(first * second);
+   63	            }   
+   64	            else if(check == "/")
+   65	            {
+   66	                getNums(first, second, stk);
+   67	                stk.push(first / second);
+   68	            }   
+   69	        e = e.substr(pos+1);
+   70	        pos = e.find(" ");
+   71	    }
+   72	    solution = stk.top();
+   73	    return solution;
+   74	}
+   75	
+   76	int main()
+   77	{
+   78	    stack<int> stk;
+   79	    string expression;
+   80	    cout << "Please enter your postfix expression: \n";
+   81	    getline(cin, expression);
+   82	    expression = expression + " ";
+   83	    cout << "Result = " << postfix(stk, expression) << endl;
+   84	    return 0;
+   85	}
+$ c++ postfix.cpp
+$ a.out
+Please enter your postfix expression: 
+3 4 5 + - 2 *
+Result = -12
+$ a.out
+Please enter your postfix expression: 
+10 20 2 * + 5 /
+Result = 10
+$ a.out
+Please enter your postfix expression: 
+20 10 / 2 * 5 +
+Result = 9
+$ a.out
+Please enter your postfix expression: 
+10 2 8 * + 3 -
+Result = 23
+$ a.out
+Please enter your postfix expression: 
+10 2 * 8 - 3 -
+Result = 9
+$ exit
+exit
+
+Script done on Mon 22 Nov 2021 02:55:10 PM CST

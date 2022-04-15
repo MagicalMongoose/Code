@@ -1,0 +1,88 @@
+Script started on Wed 20 Oct 2021 02:28:02 PM CDT
+$ cat -n cla13c.cc
+     1	/*
+     2	Author: Drew Lickman c8055315
+     3	Professor: Dr. Yang
+     4	Class: 2170-001
+     5	Lab: CLA13: Programming Exercise 3)
+     6	Due: 10/20/21
+     7	Description: Create a dynamically sized array that will be used to print Student info.
+     8	*/
+     9	
+    10	#include<iostream>
+    11	#include<string>
+    12	#include<iomanip>
+    13	using namespace std;
+    14	
+    15	struct Student
+    16	{
+    17		string name;
+    18		string email;
+    19		int id;
+    20	};
+    21	
+    22	void getStudentInfo(Student *studPtr, int i)
+    23	{
+    24		string junk;
+    25		getline(cin, junk);
+    26		cout << "Student [" << i+1 << "]:" << endl;
+    27		cout << "Enter name: ";
+    28		getline(cin, studPtr->name);
+    29		cout << "Enter email: ";
+    30		cin >> studPtr->email;
+    31		cout << "Enter id: ";
+    32		cin >> studPtr->id;	
+    33		cout << endl << endl;
+    34	}
+    35	
+    36	void printStudentInfo(const Student *studPtr)
+    37	{
+    38		cout << "Name: " << fixed << setw(20) << left << studPtr->name;
+    39		cout << "Email: " << fixed << setw(20) << left << studPtr->email;
+    40		cout << "ID: " << fixed << setw(20) << left << studPtr->id << endl;
+    41	}
+    42	
+    43	
+    44	int main()
+    45	{	
+    46		int num;
+    47		cout << "How many students are in the class?" << endl;
+    48		cin >> num;
+    49		Student *studPtr = new Student[num];
+    50		
+    51		for (int i = 0; i < num; i++)
+    52		{
+    53			getStudentInfo(studPtr+i, i);
+    54		}
+    55		cout << "==========================" << endl;
+    56		for (int i = 0; i < num; i++)
+    57		{
+    58			printStudentInfo(studPtr+i);
+    59		}
+    60		delete [] studPtr;
+    61		return 0;
+    62	}
+    63	
+$ c++ d[Kcla13c.cc
+$ a.out
+How many students are in the class?
+2
+Student [1]:
+Enter name: Xin Yang
+Enter email: Xin.Yang@mtsu.edu
+Enter id: 8294600
+
+
+Student [2]:
+Enter name: Ada Love
+Enter email: Ada.Love@mtsu.edu
+Enter id: 8294605
+
+
+==========================
+Name: Xin Yang            Email: Xin.Yang@mtsu.edu   ID: 8294600             
+Name: Ada Love            Email: Ada.Love@mtsu.edu   ID: 8294605             
+$ exit
+exit
+
+Script done on Wed 20 Oct 2021 02:29:30 PM CDT
